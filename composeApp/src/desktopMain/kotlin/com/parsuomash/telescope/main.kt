@@ -2,7 +2,6 @@ package com.parsuomash.telescope
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -14,7 +13,6 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberTrayState
 import com.parsuomash.telescope.compose.notifier.ProvideTrayState
-import com.parsuomash.telescope.compose.notifier.rememberNotifier
 import com.parsuomash.telescope.compose.tray.Tray
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
@@ -64,23 +62,7 @@ fun main() = application {
         visible = isTelscopeWindowVisible
     ) {
         ProvideTrayState(trayState) {
-            val notifier = rememberNotifier()
-
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
-                Button(
-                    onClick = {
-                        notifier.notify(
-                            title = "Desktop Notification",
-                            message = "message"
-                        )
-                    }
-                ) {
-                    Text("Show Notif")
-                }
-            }
+            App()
         }
     }
 
