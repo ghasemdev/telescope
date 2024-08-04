@@ -10,7 +10,7 @@ import org.w3c.notifications.NotificationOptions
 private external fun isNotificationSupported(): Boolean
 
 @Composable
-internal actual fun rememberNotifier(configuration: NotificationPlatformConfiguration): Notifier {
+internal actual fun rememberNotifier(): Notifier {
     val notificationPermission: NotificationPermission = remember { WebNotificationPermission() }
     return remember {
         object : Notifier {

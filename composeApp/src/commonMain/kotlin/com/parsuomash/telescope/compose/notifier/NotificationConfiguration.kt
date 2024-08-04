@@ -1,9 +1,14 @@
 package com.parsuomash.telescope.compose.notifier
 
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.compositionLocalOf
+import com.parsuomash.telescope.compose.notifier.NotificationConfiguration.Android.NotificationChannelData
+
 /**
  * You can configure some customization for notifications depending on the platform
  */
-public sealed interface NotificationPlatformConfiguration {
+internal sealed interface NotificationConfiguration {
     /**
      * Android Notification Customization. Create this object in android source.
      *
@@ -11,16 +16,12 @@ public sealed interface NotificationPlatformConfiguration {
      * @param notificationIconColorResId optional icon color ResourceId (R.color.yellow)
      * @param notificationChannelData optional notification channel data for General or Miscellaneous notifications
      * @see NotificationChannelData
-     * @param showPushNotification Default value is true, by default when push notification is
-     * received it will be shown to user. When set to false, it will not be shown to user,
-     * but you can still get notification content using
      */
-    public class Android(
-        public val notificationIconResId: Int,
-        public val notificationIconColorResId: Int? = null,
-        public val notificationChannelData: NotificationChannelData = NotificationChannelData(),
-        public val showPushNotification: Boolean = true,
-    ) : NotificationPlatformConfiguration {
+    class Android(
+        val notificationIconResId: Int,
+        val notificationIconColorResId: Int? = null,
+        val notificationChannelData: NotificationChannelData = NotificationChannelData()
+    ) : NotificationConfiguration {
         /**
          * By default Notification channel with below configuration is created but you can change it
          * @param id for General(or Miscellaneous or Other) notifications. Default value: "DEFAULT_NOTIFICATION_CHANNEL_ID"
@@ -28,7 +29,7 @@ public sealed interface NotificationPlatformConfiguration {
          * Usually it is either General or Miscellaneous or Miscellaneous in most apps
          * @param description Notification description
          */
-        public class NotificationChannelData(
+        class NotificationChannelData(
             public val id: String = "DEFAULT_NOTIFICATION_CHANNEL_ID",
             public val name: String = "General",
             public val description: String = "",
@@ -38,32 +39,22 @@ public sealed interface NotificationPlatformConfiguration {
     /**
      * Ios notification customization.
      *
-     * @param showPushNotification Default value is true,
-     * by default when push notification is received it will be shown to user.
-     * When set to false, it will not be shown to user, but you can still get notification content using
-     *
      * @param askNotificationPermissionOnStart Default value is true, when library is initialized it
      * will ask notification permission automatically from the user.
      * By setting askNotificationPermissionOnStart false, you can customize to ask permission whenever you want.
      */
-    public data class Ios(
-        public val showPushNotification: Boolean = true,
+    data class Ios(
         public val askNotificationPermissionOnStart: Boolean = true
-    ) : NotificationPlatformConfiguration
+    ) : NotificationConfiguration
 
     /**
      * Desktop notification customization.
      *
-     * @param showPushNotification Default value is true,
-     * by default when push notification is received it will be shown to user.
-     * When set to false, it will not be shown to user, but you can still get notification content using
-     *
      * @param  notificationIconPath Notification icon path
      */
     public data class Desktop(
-        public val showPushNotification: Boolean = true,
         public val notificationIconPath: String? = null
-    ) : NotificationPlatformConfiguration
+    ) : NotificationConfiguration
 
     /**
      * Web notification customization.
@@ -74,8 +65,22 @@ public sealed interface NotificationPlatformConfiguration {
      *
      *@param  notificationIconPath Notification icon path
      */
-    public class Web(
+    class Web(
         public val askNotificationPermissionOnStart: Boolean = true,
         public val notificationIconPath: String? = null
-    ) : NotificationPlatformConfiguration
+    ) : NotificationConfiguration
+}
+
+internal val LocalNotificationConfiguration = compositionLocalOf<NotificationConfiguration> {
+    error("NotificationPlatformConfiguration must be provide!")
+}
+
+@Composable
+internal fun ProvideNotificationConfiguration(
+    configuration: NotificationConfiguration,
+    content: @Composable () -> Unit
+) {
+    CompositionLocalProvider(LocalNotificationConfiguration provides configuration) {
+        content()
+    }
 }

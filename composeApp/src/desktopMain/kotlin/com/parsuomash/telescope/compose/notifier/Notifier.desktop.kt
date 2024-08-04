@@ -5,7 +5,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.window.Notification
 
 @Composable
-internal actual fun rememberNotifier(configuration: NotificationPlatformConfiguration): Notifier {
+internal actual fun rememberNotifier(): Notifier {
     val trayState = LocalTrayState.current
     return remember {
         object : Notifier {

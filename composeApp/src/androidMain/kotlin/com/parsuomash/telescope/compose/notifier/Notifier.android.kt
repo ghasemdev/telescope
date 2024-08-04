@@ -14,18 +14,17 @@ import com.parsuomash.telescope.core.extensions.notificationManager
 import kotlin.random.Random
 
 @Composable
-internal actual fun rememberNotifier(configuration: NotificationPlatformConfiguration): Notifier {
+internal actual fun rememberNotifier(): Notifier {
     val context = LocalContext.current
-    val notificationPlatformConfiguration = remember {
-        (configuration as NotificationPlatformConfiguration.Android)
-    }
+    val notificationConfiguration = LocalNotificationConfiguration.current as NotificationConfiguration.Android
+
     val notificationPermission: NotificationPermissionChecker = remember {
         AndroidNotificationPermissionChecker(context)
     }
     val notificationChannelFactory: NotificationChannelFactory = remember {
         NotificationChannelFactory(
             context = context,
-            channelData = notificationPlatformConfiguration.notificationChannelData
+            channelData = notificationConfiguration.notificationChannelData
         )
     }
 
@@ -39,26 +38,29 @@ internal actual fun rememberNotifier(configuration: NotificationPlatformConfigur
 
             override fun notify(id: Int, title: String, message: String, payloadData: Map<String, String>) {
                 notificationPermission.hasNotificationPermission {
-                    if (it.not())
+                    if (it.not()) {
                         Log.w(
                             "AndroidNotifier", "You need to ask runtime " +
                                 "notification permission (Manifest.permission.POST_NOTIFICATIONS) in your activity"
                         )
+                    }
                 }
                 val notificationManager = context.notificationManager ?: return
                 val pendingIntent = getPendingIntent(payloadData)
+
                 notificationChannelFactory.createChannels()
+
                 val notification = NotificationCompat.Builder(
                     context,
-                    notificationPlatformConfiguration.notificationChannelData.id
+                    notificationConfiguration.notificationChannelData.id
                 ).apply {
-                    setChannelId(notificationPlatformConfiguration.notificationChannelData.id)
+                    setChannelId(notificationConfiguration.notificationChannelData.id)
                     setContentTitle(title)
                     setContentText(message)
-                    setSmallIcon(notificationPlatformConfiguration.notificationIconResId)
+                    setSmallIcon(notificationConfiguration.notificationIconResId)
                     setAutoCancel(true)
                     setContentIntent(pendingIntent)
-                    notificationPlatformConfiguration.notificationIconColorResId?.let {
+                    notificationConfiguration.notificationIconColorResId?.let {
                         color = ContextCompat.getColor(context, it)
                     }
                 }.build()

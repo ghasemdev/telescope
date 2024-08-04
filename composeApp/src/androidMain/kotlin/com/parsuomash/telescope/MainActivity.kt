@@ -5,8 +5,11 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.tooling.preview.Preview
+import com.parsuomash.telescope.compose.notifier.NotificationConfiguration
 import com.parsuomash.telescope.compose.notifier.NotifierManager
+import com.parsuomash.telescope.compose.notifier.ProvideNotificationConfiguration
 import com.parsuomash.telescope.compose.notifier.permission.notificationPermissionRequester
 import com.parsuomash.telescope.core.extensions.onCreateOrOnNewIntent
 
@@ -20,7 +23,13 @@ class MainActivity : ComponentActivity() {
         NotifierManager.onCreateOrOnNewIntent(intent)
 
         setContent {
-            App()
+            val notificationConfiguration = remember {
+                NotificationConfiguration.Android(notificationIconResId = R.drawable.ic_telescope)
+            }
+
+            ProvideNotificationConfiguration(notificationConfiguration) {
+                App()
+            }
         }
     }
 

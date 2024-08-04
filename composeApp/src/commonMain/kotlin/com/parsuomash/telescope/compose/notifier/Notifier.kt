@@ -38,4 +38,4 @@ internal interface Notifier {
 }
 
 @Composable
-internal expect fun rememberNotifier(configuration: NotificationPlatformConfiguration): Notifier
+internal expect fun rememberNotifier(): Notifier

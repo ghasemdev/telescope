@@ -7,8 +7,8 @@ import android.os.Build
 import com.parsuomash.telescope.core.extensions.notificationManager
 
 internal class NotificationChannelFactory(
-    private val context: Context,
-    private val channelData: NotificationPlatformConfiguration.Android.NotificationChannelData,
+  private val context: Context,
+  private val channelData: NotificationConfiguration.Android.NotificationChannelData,
 ) {
     fun createChannels() {
         val notificationManager = context.notificationManager ?: return
