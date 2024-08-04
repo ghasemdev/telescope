@@ -1,9 +1,9 @@
-package com.parsuomash.telescope.compose.notifier
+package com.parsuomash.telescope.notifier
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.compositionLocalOf
-import com.parsuomash.telescope.compose.notifier.NotificationConfiguration.Android.NotificationChannelData
+import com.parsuomash.telescope.notifier.NotificationConfiguration.Android.NotificationChannelData
 
 /**
  * You can configure some customization for notifications depending on the platform

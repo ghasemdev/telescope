@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberTrayState
-import com.parsuomash.telescope.compose.notifier.ProvideTrayState
+import com.parsuomash.telescope.notifier.ProvideTrayState
 import com.parsuomash.telescope.compose.tray.Tray
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource

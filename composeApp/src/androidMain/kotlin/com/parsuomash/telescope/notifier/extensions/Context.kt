@@ -1,4 +1,4 @@
-package com.parsuomash.telescope.core.extensions
+package com.parsuomash.telescope.notifier.extensions
 
 import android.Manifest
 import android.app.NotificationManager

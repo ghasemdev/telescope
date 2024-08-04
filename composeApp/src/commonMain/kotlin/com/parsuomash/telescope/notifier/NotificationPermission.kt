@@ -1,4 +1,4 @@
-package com.parsuomash.telescope.compose.notifier
+package com.parsuomash.telescope.notifier
 
 internal interface NotificationPermissionChecker {
     fun hasNotificationPermission(onPermissionResult: (Boolean) -> Unit)

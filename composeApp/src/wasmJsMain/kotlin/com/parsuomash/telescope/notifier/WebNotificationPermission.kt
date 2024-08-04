@@ -1,6 +1,7 @@
-package com.parsuomash.telescope.compose.notifier
+package com.parsuomash.telescope.notifier
 
 import org.w3c.notifications.NotificationPermission as WNotificationPermission
+import com.parsuomash.telescope.notifier.NotificationPermission
 import org.w3c.notifications.GRANTED
 import org.w3c.notifications.Notification
 

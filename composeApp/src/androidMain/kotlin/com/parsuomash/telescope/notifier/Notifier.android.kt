@@ -1,4 +1,4 @@
-package com.parsuomash.telescope.compose.notifier
+package com.parsuomash.telescope.notifier
 
 import android.app.PendingIntent
 import android.content.Intent
@@ -8,9 +8,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
-import com.parsuomash.telescope.compose.notifier.permission.AndroidNotificationPermissionChecker
-import com.parsuomash.telescope.core.extensions.ACTION_NOTIFICATION_CLICK
-import com.parsuomash.telescope.core.extensions.notificationManager
+import com.parsuomash.telescope.notifier.LocalNotificationConfiguration
+import com.parsuomash.telescope.notifier.NotificationConfiguration
+import com.parsuomash.telescope.notifier.NotificationPermissionChecker
+import com.parsuomash.telescope.notifier.Notifier
+import com.parsuomash.telescope.notifier.permission.AndroidNotificationPermissionChecker
+import com.parsuomash.telescope.notifier.extensions.ACTION_NOTIFICATION_CLICK
+import com.parsuomash.telescope.notifier.extensions.notificationManager
 import kotlin.random.Random
 
 @Composable

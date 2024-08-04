@@ -7,11 +7,11 @@ import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.tooling.preview.Preview
-import com.parsuomash.telescope.compose.notifier.NotificationConfiguration
-import com.parsuomash.telescope.compose.notifier.NotifierManager
-import com.parsuomash.telescope.compose.notifier.ProvideNotificationConfiguration
-import com.parsuomash.telescope.compose.notifier.permission.notificationPermissionRequester
-import com.parsuomash.telescope.core.extensions.onCreateOrOnNewIntent
+import com.parsuomash.telescope.notifier.NotificationConfiguration
+import com.parsuomash.telescope.notifier.NotifierManager
+import com.parsuomash.telescope.notifier.ProvideNotificationConfiguration
+import com.parsuomash.telescope.notifier.permission.notificationPermissionRequester
+import com.parsuomash.telescope.notifier.extensions.onCreateOrOnNewIntent
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

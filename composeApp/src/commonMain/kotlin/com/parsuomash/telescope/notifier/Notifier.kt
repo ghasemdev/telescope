@@ -1,4 +1,4 @@
-package com.parsuomash.telescope.compose.notifier
+package com.parsuomash.telescope.notifier
 
 import androidx.compose.runtime.Composable
 

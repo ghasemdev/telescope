@@ -1,8 +1,12 @@
-package com.parsuomash.telescope.compose.notifier
+package com.parsuomash.telescope.notifier
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
+import com.parsuomash.telescope.notifier.LocalNotificationConfiguration
+import com.parsuomash.telescope.notifier.NotificationConfiguration
+import com.parsuomash.telescope.notifier.NotificationPermission
+import com.parsuomash.telescope.notifier.Notifier
 import kotlinx.browser.window
 import org.w3c.notifications.Notification
 import org.w3c.notifications.NotificationOptions

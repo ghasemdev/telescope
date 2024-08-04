@@ -1,11 +1,11 @@
-package com.parsuomash.telescope.compose.notifier.permission
+package com.parsuomash.telescope.notifier.permission
 
 import android.Manifest
 import android.os.Build
 import androidx.activity.ComponentActivity
 import androidx.activity.result.contract.ActivityResultContracts
-import com.parsuomash.telescope.compose.notifier.NotificationPermissionRequester
-import com.parsuomash.telescope.core.extensions.hasPermission
+import com.parsuomash.telescope.notifier.NotificationPermissionRequester
+import com.parsuomash.telescope.notifier.extensions.hasPermission
 
 /**
  * in Activity

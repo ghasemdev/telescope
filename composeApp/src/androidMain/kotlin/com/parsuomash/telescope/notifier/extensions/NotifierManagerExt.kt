@@ -1,9 +1,9 @@
-package com.parsuomash.telescope.core.extensions
+package com.parsuomash.telescope.notifier.extensions
 
 import android.content.Intent
 import androidx.core.bundle.bundleOf
-import com.parsuomash.telescope.compose.notifier.NotifierManager
-import com.parsuomash.telescope.compose.notifier.NotifierManagerImpl
+import com.parsuomash.telescope.notifier.NotifierManager
+import com.parsuomash.telescope.notifier.NotifierManagerImpl
 
 /**
  * In order to receive notification data payload this functions needs to be called in
