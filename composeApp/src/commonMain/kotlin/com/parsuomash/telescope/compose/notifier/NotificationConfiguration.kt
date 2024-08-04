@@ -30,9 +30,9 @@ internal sealed interface NotificationConfiguration {
          * @param description Notification description
          */
         class NotificationChannelData(
-            public val id: String = "DEFAULT_NOTIFICATION_CHANNEL_ID",
-            public val name: String = "General",
-            public val description: String = "",
+            val id: String = "DEFAULT_NOTIFICATION_CHANNEL_ID",
+            val name: String = "General",
+            val description: String = "",
         )
     }
 
@@ -44,16 +44,7 @@ internal sealed interface NotificationConfiguration {
      * By setting askNotificationPermissionOnStart false, you can customize to ask permission whenever you want.
      */
     data class Ios(
-        public val askNotificationPermissionOnStart: Boolean = true
-    ) : NotificationConfiguration
-
-    /**
-     * Desktop notification customization.
-     *
-     * @param  notificationIconPath Notification icon path
-     */
-    public data class Desktop(
-        public val notificationIconPath: String? = null
+        val askNotificationPermissionOnStart: Boolean = true
     ) : NotificationConfiguration
 
     /**
@@ -66,8 +57,8 @@ internal sealed interface NotificationConfiguration {
      *@param  notificationIconPath Notification icon path
      */
     class Web(
-        public val askNotificationPermissionOnStart: Boolean = true,
-        public val notificationIconPath: String? = null
+        val askNotificationPermissionOnStart: Boolean = true,
+        val notificationIconPath: String? = null
     ) : NotificationConfiguration
 }
 

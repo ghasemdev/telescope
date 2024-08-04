@@ -24,7 +24,10 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             val notificationConfiguration = remember {
-                NotificationConfiguration.Android(notificationIconResId = R.drawable.ic_telescope)
+                NotificationConfiguration.Android(
+                    notificationIconResId = R.drawable.ic_telescope,
+                    notificationIconColorResId = R.color.notification_icon
+                )
             }
 
             ProvideNotificationConfiguration(notificationConfiguration) {
