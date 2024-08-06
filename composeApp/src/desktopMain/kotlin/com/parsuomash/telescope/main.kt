@@ -3,6 +3,8 @@ package com.parsuomash.telescope
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Text
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -12,8 +14,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberTrayState
-import com.parsuomash.telescope.notifier.ProvideTrayState
 import com.parsuomash.telescope.compose.tray.Tray
+import com.parsuomash.telescope.di.TelescopeKoinContext
+import com.parsuomash.telescope.notifier.ProvideTrayState
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import telescope.composeapp.generated.resources.Res
@@ -24,6 +27,16 @@ fun main() = application {
     var isTelscopeWindowVisible by rememberSaveable { mutableStateOf(true) }
     var isTelscopeTrayVisible by rememberSaveable { mutableStateOf(true) }
     val trayState = rememberTrayState()
+
+    LaunchedEffect(Unit){
+        TelescopeKoinContext.start()
+    }
+
+    DisposableEffect(Unit){
+        onDispose {
+            TelescopeKoinContext.stop()
+        }
+    }
 
     if (isTelscopeTrayVisible) {
         Tray(

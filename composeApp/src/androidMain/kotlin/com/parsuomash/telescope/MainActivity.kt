@@ -2,20 +2,28 @@ package com.parsuomash.telescope
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.tooling.preview.Preview
+import com.parsuomash.telescope.di.TelescopeKoinContext
+import com.parsuomash.telescope.di.scope.ActivityScope
 import com.parsuomash.telescope.notifier.NotificationConfiguration
 import com.parsuomash.telescope.notifier.NotifierManager
 import com.parsuomash.telescope.notifier.ProvideNotificationConfiguration
-import com.parsuomash.telescope.notifier.permission.notificationPermissionRequester
 import com.parsuomash.telescope.notifier.extensions.onCreateOrOnNewIntent
+import com.parsuomash.telescope.notifier.permission.notificationPermissionRequester
+import org.koin.android.ext.koin.androidContext
+import org.koin.android.ext.koin.androidLogger
 
-class MainActivity : ComponentActivity() {
+class MainActivity : ActivityScope() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        TelescopeKoinContext.start {
+            androidContext(applicationContext)
+            androidLogger()
+        }
 
         val notificationPermission by notificationPermissionRequester()
         notificationPermission.askNotificationPermission()
@@ -39,6 +47,11 @@ class MainActivity : ComponentActivity() {
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
         NotifierManager.onCreateOrOnNewIntent(intent)
+    }
+
+    override fun onDestroy() {
+        TelescopeKoinContext.stop()
+        super.onDestroy()
     }
 }
 

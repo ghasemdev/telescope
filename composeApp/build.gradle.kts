@@ -10,6 +10,7 @@ plugins {
     alias(libs.plugins.jetbrains.compose)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.kotlin.atomicfu)
 }
 
 kotlin {
@@ -70,16 +71,21 @@ kotlin {
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
+//            implementation(libs.koin.android)
+            implementation(libs.koin.androidx.compose)
             implementation(libs.ktor.client.okhttp)
             implementation(libs.kotlinx.coroutines.android)
             implementation(libs.androidx.navigation.compose)
+            implementation(libs.androidx.annotation)
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
+            implementation(libs.androidx.annotation)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(libs.ktor.client.okhttp)
+            implementation(libs.androidx.annotation)
         }
         wasmJsMain.dependencies {
             implementation(libs.ktor.client.js)

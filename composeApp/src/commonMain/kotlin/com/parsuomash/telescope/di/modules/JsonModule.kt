@@ -1,4 +1,4 @@
-package com.parsuomash.telescope.di
+package com.parsuomash.telescope.di.modules
 
 import org.koin.dsl.module
 import kotlinx.serialization.json.Json

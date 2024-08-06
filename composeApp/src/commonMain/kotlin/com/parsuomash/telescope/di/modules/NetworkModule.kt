@@ -1,4 +1,4 @@
-package com.parsuomash.telescope.di
+package com.parsuomash.telescope.di.modules
 
 import io.ktor.client.plugins.*
 import io.ktor.client.plugins.cache.*
