@@ -10,36 +10,32 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.parsuomash.telescope.di.TelescopeKoinContext
 import com.parsuomash.telescope.notifier.rememberNotifier
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import org.koin.compose.KoinIsolatedContext
 
 @Composable
 @Preview
 fun App() {
-    KoinIsolatedContext(context = TelescopeKoinContext.get()) {
-        val notifier = rememberNotifier()
+    val notifier = rememberNotifier()
 
-        MaterialTheme {
-            Column(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally
+    MaterialTheme {
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
             ) {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Button(
-                        onClick = {
-                            notifier.notify(
-                                title = "Desktop Notification",
-                                message = "message"
-                            )
-                        }
-                    ) {
-                        Text("Show Notif")
+                Button(
+                    onClick = {
+                        notifier.notify(
+                            title = "Desktop Notification",
+                            message = "message"
+                        )
                     }
+                ) {
+                    Text("Show Notif")
                 }
             }
         }

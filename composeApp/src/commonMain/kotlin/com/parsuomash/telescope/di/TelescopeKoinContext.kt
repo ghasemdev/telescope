@@ -1,6 +1,5 @@
 package com.parsuomash.telescope.di
 
-import com.parsuomash.telescope.di.modules.JsonModule
 import com.parsuomash.telescope.di.modules.NetworkModule
 import kotlin.jvm.JvmStatic
 import kotlinx.atomicfu.locks.SynchronizedObject
@@ -15,8 +14,10 @@ internal object TelescopeKoinContext {
     private var app: KoinApplication? = null
 
     @JvmStatic
-    fun start(appDeclaration: KoinAppDeclaration? = null) {
-        app = buildKoinApplication(appDeclaration)
+    fun start(appDeclaration: KoinAppDeclaration? = null) = synchronized(lock) {
+        if (app == null) {
+            app = buildKoinApplication(appDeclaration)
+        }
     }
 
     @JvmStatic

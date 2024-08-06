@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Text
 import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -23,71 +22,71 @@ import telescope.composeapp.generated.resources.Res
 import telescope.composeapp.generated.resources.app_name
 import telescope.composeapp.generated.resources.telescope
 
-fun main() = application {
-    var isTelscopeWindowVisible by rememberSaveable { mutableStateOf(true) }
-    var isTelscopeTrayVisible by rememberSaveable { mutableStateOf(true) }
-    val trayState = rememberTrayState()
+fun main() {
+    TelescopeKoinContext.start()
 
-    LaunchedEffect(Unit){
-        TelescopeKoinContext.start()
-    }
+    application {
+        var isTelscopeWindowVisible by rememberSaveable { mutableStateOf(true) }
+        var isTelscopeTrayVisible by rememberSaveable { mutableStateOf(true) }
+        val trayState = rememberTrayState()
 
-    DisposableEffect(Unit){
-        onDispose {
-            TelescopeKoinContext.stop()
-        }
-    }
-
-    if (isTelscopeTrayVisible) {
-        Tray(
-            state = trayState,
-            icon = painterResource(Res.drawable.telescope),
-            tooltip = stringResource(Res.string.app_name),
-            onAction = {
-                isTelscopeWindowVisible = true
-            },
-            onClick = {
-                isTelscopeWindowVisible = true
+        DisposableEffect(Unit) {
+            onDispose {
+                TelescopeKoinContext.stop()
             }
-        ) {
-            Item(
-                text = "Open Telescope",
-                shortcut = null,
+        }
+
+        if (isTelscopeTrayVisible) {
+            Tray(
+                state = trayState,
+                icon = painterResource(Res.drawable.telescope),
+                tooltip = stringResource(Res.string.app_name),
+                onAction = {
+                    isTelscopeWindowVisible = true
+                },
                 onClick = {
                     isTelscopeWindowVisible = true
                 }
-            )
-            Item(
-                text = "Quit Telescope",
-                shortcut = null,
-                onClick = {
-                    isTelscopeWindowVisible = false
-                    isTelscopeTrayVisible = false
-                }
-            )
+            ) {
+                Item(
+                    text = "Open Telescope",
+                    shortcut = null,
+                    onClick = {
+                        isTelscopeWindowVisible = true
+                    }
+                )
+                Item(
+                    text = "Quit Telescope",
+                    shortcut = null,
+                    onClick = {
+                        isTelscopeWindowVisible = false
+                        isTelscopeTrayVisible = false
+                    }
+                )
+            }
         }
-    }
 
-    Window(
-        onCloseRequest = { isTelscopeWindowVisible = false },
-        title = stringResource(Res.string.app_name),
-        icon = painterResource(Res.drawable.telescope),
-        visible = isTelscopeWindowVisible
-    ) {
-        ProvideTrayState(trayState) {
-            App()
-        }
-    }
-
-    Window(
-        onCloseRequest = ::exitApplication,
-        title = "Contracts"
-    ) {
-        Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
+        Window(
+            onCloseRequest = { isTelscopeWindowVisible = false },
+            title = stringResource(Res.string.app_name),
+            icon = painterResource(Res.drawable.telescope),
+            visible = isTelscopeWindowVisible
         ) {
-            Text("Hello")
+            ProvideTrayState(trayState) {
+                App()
+            }
+        }
+
+        Window(
+            onCloseRequest = ::exitApplication,
+            title = "Contracts"
+        ) {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                Text("Hello")
+            }
         }
     }
 }
