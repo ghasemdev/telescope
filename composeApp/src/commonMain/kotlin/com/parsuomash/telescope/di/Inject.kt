@@ -8,7 +8,7 @@ internal inline fun <reified T : Any> inject(
     qualifier: Qualifier? = null,
     mode: LazyThreadSafetyMode = KoinPlatformTools.defaultLazyMode(),
     noinline parameters: ParametersDefinition? = null,
-): Lazy<T> = TelescopeKoinContext.get().koin.inject<T>(
+): Lazy<T> = TelescopeKoinContext.app.koin.inject<T>(
     qualifier = qualifier,
     mode = mode,
     parameters = parameters
