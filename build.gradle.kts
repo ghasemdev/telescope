@@ -17,6 +17,7 @@ plugins {
 buildscript {
     dependencies {
         classpath(libs.dokka.base)
+        classpath(libs.buildkonfig.gradle.plugin)
     }
 }
 

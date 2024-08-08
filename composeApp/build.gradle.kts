@@ -1,3 +1,4 @@
+import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.BOOLEAN
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
@@ -11,6 +12,17 @@ plugins {
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.kotlin.atomicfu)
+    id("com.codingfeline.buildkonfig")
+}
+
+buildkonfig {
+    packageName = "com.parsuomash.telescope"
+    defaultConfigs {
+        buildConfigField(type = BOOLEAN, name = "isDevelope", value = "false", const = true)
+    }
+    defaultConfigs("dev") {
+        buildConfigField(type = BOOLEAN, name = "isDevelope", value = "true", const = true)
+    }
 }
 
 kotlin {
@@ -67,11 +79,11 @@ kotlin {
             implementation(libs.bundles.lifecycle)
             implementation(libs.kotlinx.coroutines.core)
             implementation(libs.navigation.compose)
+            implementation(libs.napier)
         }
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
-//            implementation(libs.koin.android)
             implementation(libs.koin.androidx.compose)
             implementation(libs.ktor.client.okhttp)
             implementation(libs.kotlinx.coroutines.android)
