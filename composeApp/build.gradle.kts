@@ -11,7 +11,6 @@ plugins {
     alias(libs.plugins.jetbrains.compose)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.kotlin.serialization)
-    alias(libs.plugins.kotlin.atomicfu)
     id("com.codingfeline.buildkonfig")
 }
 
@@ -78,6 +77,7 @@ kotlin {
             implementation(libs.bundles.kotlinx)
             implementation(libs.bundles.lifecycle)
             implementation(libs.kotlinx.coroutines.core)
+            implementation(libs.atomicfu)
             implementation(libs.navigation.compose)
             implementation(libs.napier)
         }
