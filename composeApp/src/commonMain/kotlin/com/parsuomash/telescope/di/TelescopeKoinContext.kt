@@ -14,6 +14,7 @@ import org.koin.core.logger.MESSAGE
 import org.koin.core.module.Module
 import org.koin.dsl.KoinAppDeclaration
 import org.koin.dsl.koinApplication
+import org.koin.dsl.module
 
 internal object TelescopeKoinContext {
     private val lock = SynchronizedObject()
@@ -56,8 +57,12 @@ internal object TelescopeKoinContext {
         if (BuildKonfig.isDevelope) {
             logger(TelescopeLogger())
         }
-        modules(NetworkModule)
+        modules(NetworkModule, module { single { Foo() } })
     }
+}
+
+class Foo {
+    fun bar() = "hi"
 }
 
 internal class TelescopeLogger(level: Level = Level.INFO) : Logger(level) {

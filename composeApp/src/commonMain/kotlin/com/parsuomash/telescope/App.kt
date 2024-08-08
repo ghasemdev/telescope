@@ -10,6 +10,8 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.parsuomash.telescope.di.Foo
+import com.parsuomash.telescope.di.koinInject
 import com.parsuomash.telescope.notifier.rememberNotifier
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -35,7 +37,7 @@ fun App() {
                         )
                     }
                 ) {
-                    Text("Show Notif")
+                    Text("Show Notif ${koinInject<Foo>().bar()}")
                 }
             }
         }
