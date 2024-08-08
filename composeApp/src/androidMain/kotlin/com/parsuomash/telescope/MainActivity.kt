@@ -14,7 +14,7 @@ import com.parsuomash.telescope.notifier.ProvideNotificationConfiguration
 import com.parsuomash.telescope.notifier.extensions.onCreateOrOnNewIntent
 import com.parsuomash.telescope.notifier.permission.notificationPermissionRequester
 import org.koin.android.ext.koin.androidContext
-import org.koin.android.ext.koin.androidLogger
+import org.koin.compose.KoinIsolatedContext
 
 class MainActivity : ActivityScope() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,7 +22,6 @@ class MainActivity : ActivityScope() {
 
         TelescopeKoinContext.start {
             androidContext(applicationContext)
-            androidLogger()
         }
 
         val notificationPermission by notificationPermissionRequester()
@@ -38,8 +37,10 @@ class MainActivity : ActivityScope() {
                 )
             }
 
-            ProvideNotificationConfiguration(notificationConfiguration) {
-                App()
+            KoinIsolatedContext(TelescopeKoinContext.app) {
+                ProvideNotificationConfiguration(notificationConfiguration) {
+                    App()
+                }
             }
         }
     }

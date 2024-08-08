@@ -1,6 +1,6 @@
 [versions]
 agp = "8.5.1"
-android-compileSdk = "34"
+android-compileSdk = "35"
 android-minSdk = "24"
 android-targetSdk = "34"
 androidx-activityCompose = "1.9.1"
@@ -15,7 +15,6 @@ detekt = "1.23.6"
 dokka = "1.9.20"
 junit = "4.13.2"
 koin = "4.0.0-RC1"
-koin-compose = "1.2.0-Beta4"
 kotlin = "2.0.10-RC"
 kotlinx-atomicfu = "0.25.0"
 kotlinx-collections-immutable = "0.3.7"
@@ -30,6 +29,7 @@ napier = "2.7.1"
 navigation-kmp = "2.8.0-alpha08"
 navigation-compose = "2.8.0-beta07"
 okhttp = "4.12.0"
+slf4jNop = "2.0.15"
 
 [libraries]
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
@@ -44,10 +44,9 @@ detekt-formatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", 
 dokka-base = { module = "org.jetbrains.dokka:dokka-base", version.ref = "dokka" }
 dokka-kotlin-plugin = { module = "org.jetbrains.dokka:kotlin-as-java-plugin", version.ref = "dokka" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
-koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
 koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin" }
-koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koin-compose" }
-koin-compose-viewmodel = { module = "io.insert-koin:koin-compose-viewmodel", version.ref = "koin-compose" }
+koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koin" }
+koin-compose-viewmodel = { module = "io.insert-koin:koin-compose-viewmodel", version.ref = "koin" }
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 koin-test = { module = "io.insert-koin:koin-test", version.ref = "koin" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -72,6 +71,7 @@ lifecycle-viewmodel-compose = { module = "org.jetbrains.androidx.lifecycle:lifec
 napier = { module = "io.github.aakira:napier", version.ref = "napier" }
 navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "navigation-kmp" }
 okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
+slf4j-nop = { module = "org.slf4j:slf4j-nop", version.ref = "slf4jNop" }
 
 [bundles]
 koin = [

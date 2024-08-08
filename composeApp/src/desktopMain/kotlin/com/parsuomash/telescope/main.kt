@@ -18,19 +18,20 @@ import com.parsuomash.telescope.di.TelescopeKoinContext
 import com.parsuomash.telescope.notifier.ProvideTrayState
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.KoinIsolatedContext
 import telescope.composeapp.generated.resources.Res
 import telescope.composeapp.generated.resources.app_name
 import telescope.composeapp.generated.resources.telescope
 
 fun main() {
-    TelescopeKoinContext.start()
-
     application {
         var isTelscopeWindowVisible by rememberSaveable { mutableStateOf(true) }
         var isTelscopeTrayVisible by rememberSaveable { mutableStateOf(true) }
         val trayState = rememberTrayState()
 
         DisposableEffect(Unit) {
+            TelescopeKoinContext.start()
+
             onDispose {
                 TelescopeKoinContext.stop()
             }
@@ -72,8 +73,10 @@ fun main() {
             icon = painterResource(Res.drawable.telescope),
             visible = isTelscopeWindowVisible
         ) {
-            ProvideTrayState(trayState) {
-                App()
+            KoinIsolatedContext(TelescopeKoinContext.app) {
+                ProvideTrayState(trayState) {
+                    App()
+                }
             }
         }
 

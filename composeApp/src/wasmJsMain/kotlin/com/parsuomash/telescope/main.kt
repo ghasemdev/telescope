@@ -1,7 +1,6 @@
 package com.parsuomash.telescope
 
 import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.window.ComposeViewport
@@ -9,6 +8,7 @@ import com.parsuomash.telescope.di.TelescopeKoinContext
 import com.parsuomash.telescope.notifier.NotificationConfiguration
 import com.parsuomash.telescope.notifier.ProvideNotificationConfiguration
 import kotlinx.browser.document
+import org.koin.compose.KoinIsolatedContext
 
 @OptIn(ExperimentalComposeUiApi::class)
 fun main() {
@@ -17,18 +17,18 @@ fun main() {
             NotificationConfiguration.Web(notificationIconPath = "telescope.png")
         }
 
-        LaunchedEffect(Unit){
+        DisposableEffect(Unit) {
             TelescopeKoinContext.start()
-        }
 
-        DisposableEffect(Unit){
             onDispose {
                 TelescopeKoinContext.stop()
             }
         }
 
-        ProvideNotificationConfiguration(notificationConfiguration) {
-            App()
+        KoinIsolatedContext(TelescopeKoinContext.app) {
+            ProvideNotificationConfiguration(notificationConfiguration) {
+                App()
+            }
         }
     }
 }

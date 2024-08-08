@@ -89,6 +89,7 @@ kotlin {
             implementation(libs.kotlinx.coroutines.android)
             implementation(libs.androidx.navigation.compose)
             implementation(libs.androidx.annotation)
+            implementation(libs.slf4j.nop)
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
@@ -98,6 +99,7 @@ kotlin {
             implementation(compose.desktop.currentOs)
             implementation(libs.ktor.client.okhttp)
             implementation(libs.androidx.annotation)
+            implementation(libs.slf4j.nop)
         }
         wasmJsMain.dependencies {
             implementation(libs.ktor.client.js)
