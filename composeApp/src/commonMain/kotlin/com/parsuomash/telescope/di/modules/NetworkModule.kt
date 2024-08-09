@@ -1,5 +1,6 @@
 package com.parsuomash.telescope.di.modules
 
+import com.parsuomash.telescope.data.remote.utils.TelescopePlugin
 import com.parsuomash.telescope.data.remote.utils.httpClient
 import io.ktor.client.plugins.*
 import io.ktor.client.plugins.cache.*
@@ -29,6 +30,7 @@ internal val NetworkModule = module {
             }
             install(HttpCache) // In Memory
             install(Logging)
+            install(TelescopePlugin)
 
             expectSuccess = true
             followRedirects = false
