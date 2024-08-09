@@ -1,7 +1,11 @@
 package com.parsuomash.telescope.di
 
 import com.parsuomash.telescope.BuildKonfig
+import com.parsuomash.telescope.di.modules.ApiModule
+import com.parsuomash.telescope.di.modules.DataSourceModule
 import com.parsuomash.telescope.di.modules.NetworkModule
+import com.parsuomash.telescope.di.modules.RepositoryModule
+import com.parsuomash.telescope.di.modules.UsecaseModule
 import io.github.aakira.napier.DebugAntilog
 import io.github.aakira.napier.Napier
 import kotlinx.atomicfu.locks.SynchronizedObject
@@ -14,7 +18,6 @@ import org.koin.core.logger.MESSAGE
 import org.koin.core.module.Module
 import org.koin.dsl.KoinAppDeclaration
 import org.koin.dsl.koinApplication
-import org.koin.dsl.module
 
 internal object TelescopeKoinContext {
     private val lock = SynchronizedObject()
@@ -57,12 +60,8 @@ internal object TelescopeKoinContext {
         if (BuildKonfig.isDevelope) {
             logger(TelescopeLogger())
         }
-        modules(NetworkModule, module { single { Foo() } })
+        modules(NetworkModule, ApiModule, DataSourceModule, RepositoryModule, UsecaseModule)
     }
-}
-
-class Foo {
-    fun bar() = "hi"
 }
 
 internal class TelescopeLogger(level: Level = Level.INFO) : Logger(level) {

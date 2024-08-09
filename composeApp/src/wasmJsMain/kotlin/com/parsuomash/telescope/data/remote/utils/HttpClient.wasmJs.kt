@@ -4,7 +4,7 @@ import io.ktor.client.*
 import io.ktor.client.engine.js.*
 
 internal actual fun httpClient(
-  config: HttpClientConfig<*>.() -> Unit
+    config: HttpClientConfig<*>.() -> Unit
 ): HttpClient = HttpClient(Js) {
-  config(this)
+    config(this)
 }
