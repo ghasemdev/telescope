@@ -99,6 +99,7 @@ kotlin {
             implementation(compose.desktop.currentOs)
             implementation(libs.ktor.client.okhttp)
             implementation(libs.androidx.annotation)
+            implementation(libs.kotlinx.coroutines.swing)
             implementation(libs.slf4j.nop)
         }
         wasmJsMain.dependencies {

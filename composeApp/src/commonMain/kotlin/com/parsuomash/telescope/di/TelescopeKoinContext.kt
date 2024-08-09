@@ -6,6 +6,7 @@ import com.parsuomash.telescope.di.modules.DataSourceModule
 import com.parsuomash.telescope.di.modules.NetworkModule
 import com.parsuomash.telescope.di.modules.RepositoryModule
 import com.parsuomash.telescope.di.modules.UsecaseModule
+import com.parsuomash.telescope.di.modules.ViewModelModule
 import io.github.aakira.napier.DebugAntilog
 import io.github.aakira.napier.Napier
 import kotlinx.atomicfu.locks.SynchronizedObject
@@ -60,7 +61,7 @@ internal object TelescopeKoinContext {
         if (BuildKonfig.isDevelope) {
             logger(TelescopeLogger())
         }
-        modules(NetworkModule, ApiModule, DataSourceModule, RepositoryModule, UsecaseModule)
+        modules(NetworkModule, ApiModule, DataSourceModule, RepositoryModule, UsecaseModule, ViewModelModule)
     }
 }
 
