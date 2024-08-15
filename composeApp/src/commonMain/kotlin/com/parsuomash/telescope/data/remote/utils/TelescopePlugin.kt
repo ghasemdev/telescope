@@ -12,7 +12,7 @@ val TelescopePlugin = createClientPlugin("TelescopePlugin", ::TelescopePluginCon
     val headerValue = pluginConfig.headerValue
 
     onRequest { request, _ ->
-        request.headers.append(headerName, headerValue)
+//        request.headers.append(headerName, headerValue)
 
         println("Request headers:")
         request.headers.entries().forEach { entry ->

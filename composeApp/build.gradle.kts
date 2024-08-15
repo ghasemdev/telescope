@@ -11,6 +11,7 @@ plugins {
     alias(libs.plugins.jetbrains.compose)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.sqldelight)
     id("com.codingfeline.buildkonfig")
 }
 
@@ -25,19 +26,35 @@ buildkonfig {
 }
 
 kotlin {
-    @OptIn(ExperimentalWasmDsl::class)
-    wasmJs {
-        moduleName = "composeApp"
+//    @OptIn(ExperimentalWasmDsl::class)
+//    wasmJs {
+//        moduleName = "composeApp"
+//        browser {
+//            commonWebpackConfig {
+//                outputFileName = "composeApp.js"
+//                devServer = (devServer ?: KotlinWebpackConfig.DevServer()).apply {
+//                    static = (static ?: mutableListOf()).apply {
+//                        // Serve sources to debug inside browser
+//                        add(project.projectDir.path)
+//                    }
+//                }
+//            }
+//        }
+//        binaries.executable()
+//    }
+
+    js(IR) {
+        useEsModules()
         browser {
             commonWebpackConfig {
-                outputFileName = "composeApp.js"
+                outputFileName = "app.js"
                 devServer = (devServer ?: KotlinWebpackConfig.DevServer()).apply {
                     static = (static ?: mutableListOf()).apply {
-                        // Serve sources to debug inside browser
                         add(project.projectDir.path)
                     }
                 }
             }
+            useCommonJs()
         }
         binaries.executable()
     }
@@ -59,6 +76,7 @@ kotlin {
         iosTarget.binaries.framework {
             baseName = "ComposeApp"
             isStatic = true
+            linkerOpts.add("-lsqlite3")
         }
     }
 
@@ -80,6 +98,7 @@ kotlin {
             implementation(libs.atomicfu)
             implementation(libs.navigation.compose)
             implementation(libs.napier)
+            implementation(libs.sqldelight.coroutines)
         }
         androidMain.dependencies {
             implementation(compose.preview)
@@ -90,10 +109,13 @@ kotlin {
             implementation(libs.androidx.navigation.compose)
             implementation(libs.androidx.annotation)
             implementation(libs.slf4j.nop)
+            implementation(libs.sqldelight.android.driver)
+            implementation(libs.androidx.startup.runtime)
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
             implementation(libs.androidx.annotation)
+            implementation(libs.sqldelight.native.driver)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
@@ -101,10 +123,29 @@ kotlin {
             implementation(libs.androidx.annotation)
             implementation(libs.kotlinx.coroutines.swing)
             implementation(libs.slf4j.nop)
+            implementation(libs.sqldelight.sqlite.driver)
         }
-        wasmJsMain.dependencies {
+        jsMain.dependencies {
             implementation(libs.ktor.client.js)
             implementation(npm("@js-joda/timezone", "2.3.0"))
+
+            implementation(libs.sqldelight.web.driver)
+            implementation(npm("sql.js", "1.10.3"))
+            implementation(npm("@cashapp/sqldelight-sqljs-worker", libs.versions.sqldelight.get()))
+            implementation(devNpm("copy-webpack-plugin", "9.1.0"))
+        }
+//        wasmJsMain.dependencies {
+//            implementation(libs.ktor.client.js)
+//            implementation(npm("@js-joda/timezone", "2.3.0"))
+//        }
+    }
+}
+
+sqldelight {
+    databases {
+        create("TelescopeDB") {
+            packageName.set("com.parsuomash.telescope")
+            generateAsync.set(true)
         }
     }
 }
@@ -131,7 +172,13 @@ android {
     }
     buildTypes {
         getByName("release") {
-            isMinifyEnabled = false
+            isDebuggable = false
+            isMinifyEnabled = true
+            isShrinkResources = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "assemble/proguard-rules.pro"
+            )
         }
     }
     compileOptions {
@@ -155,6 +202,11 @@ compose.desktop {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             packageName = "com.parsuomash.telescope"
             packageVersion = "1.0.0"
+        }
+
+        buildTypes.release.proguard {
+            obfuscate.set(true)
+            configurationFiles.from(project.file("assemble/proguard-rules.pro"))
         }
     }
 }
