@@ -6,7 +6,7 @@ import app.cash.sqldelight.db.SqlSchema
 import app.cash.sqldelight.driver.worker.WebWorkerDriver
 import org.w3c.dom.Worker
 
-class WasmJsDriverFactory: DriverFactory {
+private class JsDriverFactory : DriverFactory {
     override suspend fun createDriver(
         schema: SqlSchema<QueryResult.AsyncValue<Unit>>
     ): SqlDriver {
@@ -18,6 +18,4 @@ class WasmJsDriverFactory: DriverFactory {
     }
 }
 
-actual fun createDriverFactory(): DriverFactory {
-    TODO("Not yet implemented")
-}
+actual fun createDriverFactory(): DriverFactory = JsDriverFactory()
