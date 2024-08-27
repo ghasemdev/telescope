@@ -30,9 +30,6 @@ kotlin {
         commonMain.dependencies {
             implementation(libs.zipline)
         }
-        androidMain.dependencies {
-            implementation(libs.androidx.annotation)
-        }
         iosMain.dependencies {
             implementation(libs.androidx.annotation)
         }
