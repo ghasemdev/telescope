@@ -90,6 +90,7 @@ kotlin {
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
+            implementation(libs.bundles.compose.material3.adaptive)
             implementation(libs.bundles.koin)
             implementation(libs.bundles.ktor)
             implementation(libs.bundles.kotlinx)

@@ -1,5 +1,5 @@
 [versions]
-agp = "8.5.1"
+agp = "8.5.2"
 android-compileSdk = "35"
 android-minSdk = "24"
 android-targetSdk = "34"
@@ -10,24 +10,25 @@ androidx-espresso-core = "3.6.1"
 androidx-test-junit = "1.2.1"
 annotation = "1.8.2"
 buildkonfig = "0.15.1"
-compose-plugin = "1.7.0-alpha02" # 1.6.11
+compose-plugin = "1.7.0-alpha03"
+compose-material3-adaptive = "1.0.0-alpha01"
 detekt = "1.23.6"
 dokka = "1.9.20"
 junit = "4.13.2"
 koin = "4.0.0-RC1"
-kotlin = "2.0.10"
+kotlin = "2.0.20"
 kotlinx-atomicfu = "0.25.0"
 kotlinx-collections-immutable = "0.3.7"
-kotlinx-coroutines = "1.9.0-RC"
-kotlinx-datetime = "0.6.0"
-kotlinx-io = "0.5.1"
+kotlinx-coroutines = "1.9.0-RC.2"
+kotlinx-datetime = "0.6.1"
+kotlinx-io = "0.5.3"
 kotlinx-serialization = "1.7.1"
 ktor = "3.0.0-beta-2"
 leakcanary = "2.14"
 lifecycle = "2.8.0"
 napier = "2.7.1"
-navigation-kmp = "2.8.0-alpha08"
-navigation-compose = "2.8.0-beta07"
+navigation-kmp = "2.8.0-alpha09"
+navigation-compose = "2.8.0-rc01"
 okhttp = "4.12.0"
 slf4jNop = "2.0.15"
 sqldelight = "2.0.2"
@@ -44,6 +45,9 @@ androidx-startup-runtime = { module = "androidx.startup:startup-runtime", versio
 androidx-test-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-junit" }
 atomicfu = { module = "org.jetbrains.kotlinx:atomicfu", version.ref = "kotlinx-atomicfu" }
 buildkonfig-gradle-plugin = { module = "com.codingfeline.buildkonfig:buildkonfig-gradle-plugin", version.ref = "buildkonfig" }
+compose-material3-adaptive = { module = "org.jetbrains.compose.material3.adaptive:adaptive", version.ref = "compose-material3-adaptive" }
+compose-material3-adaptive-layout = { module = "org.jetbrains.compose.material3.adaptive:adaptive-layout", version.ref = "compose-material3-adaptive" }
+compose-material3-adaptive-navigation = { module = "org.jetbrains.compose.material3.adaptive:adaptive-navigation", version.ref = "compose-material3-adaptive" }
 detekt-formatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
 dokka-base = { module = "org.jetbrains.dokka:dokka-base", version.ref = "dokka" }
 dokka-kotlin-plugin = { module = "org.jetbrains.dokka:kotlin-as-java-plugin", version.ref = "dokka" }
@@ -84,6 +88,11 @@ sqldelight-web-driver = { module = "app.cash.sqldelight:web-worker-driver", vers
 sqldelight-coroutines = { module = "app.cash.sqldelight:coroutines-extensions", version.ref = "sqldelight" }
 
 [bundles]
+compose-material3-adaptive = [
+    "compose-material3-adaptive",
+    "compose-material3-adaptive-layout",
+    "compose-material3-adaptive-navigation",
+]
 koin = [
     "koin-compose-viewmodel",
     "koin-compose",
