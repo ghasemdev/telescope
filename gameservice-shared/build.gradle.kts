@@ -27,10 +27,17 @@ kotlin {
     }
 
     sourceSets {
-        commonMain {
-            dependencies {
-                implementation("app.cash.zipline:zipline:1.16.0")
-            }
+        commonMain.dependencies {
+            implementation(libs.zipline)
+        }
+        androidMain.dependencies {
+            implementation(libs.androidx.annotation)
+        }
+        iosMain.dependencies {
+            implementation(libs.androidx.annotation)
+        }
+        jvmMain.dependencies {
+            implementation(libs.androidx.annotation)
         }
     }
 }

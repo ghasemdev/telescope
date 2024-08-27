@@ -4,7 +4,7 @@ import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.kotlin.serialization)
-    id("app.cash.zipline") version "1.16.0"
+    alias(libs.plugins.zipline)
 }
 
 kotlin {
@@ -14,11 +14,9 @@ kotlin {
     }
 
     sourceSets {
-        commonMain {
-            dependencies {
-                implementation("app.cash.zipline:zipline:1.16.0")
-                implementation(project(":gameservice-shared"))
-            }
+        commonMain.dependencies {
+            implementation(libs.zipline)
+            implementation(project(":gameservice-shared"))
         }
     }
 }

@@ -32,7 +32,7 @@ okhttp = "4.12.0"
 slf4jNop = "2.0.15"
 sqldelight = "2.0.2"
 startup = "1.1.1"
-jetbrainsKotlinJvm = "1.9.0"
+zipline = "1.16.0"
 
 [libraries]
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
@@ -83,6 +83,9 @@ sqldelight-native-driver = { module = "app.cash.sqldelight:native-driver", versi
 sqldelight-sqlite-driver = { module = "app.cash.sqldelight:sqlite-driver", version.ref = "sqldelight" }
 sqldelight-web-driver = { module = "app.cash.sqldelight:web-worker-driver", version.ref = "sqldelight" }
 sqldelight-coroutines = { module = "app.cash.sqldelight:coroutines-extensions", version.ref = "sqldelight" }
+zipline = { module = "app.cash.zipline:zipline", version.ref = "zipline" }
+zipline-loader = { module = "app.cash.zipline:zipline-loader", version.ref = "zipline" }
+zipline-profiler = { module = "app.cash.zipline:zipline-profiler", version.ref = "zipline" }
 
 [bundles]
 koin = [
@@ -119,4 +122,4 @@ kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", versi
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 maven-publish = { id = "maven-publish" }
 sqldelight = { id = "app.cash.sqldelight", version.ref = "sqldelight" }
-jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvm" }
+zipline = { id = "app.cash.zipline", version.ref = "zipline" }
