@@ -32,6 +32,7 @@ okhttp = "4.12.0"
 slf4jNop = "2.0.15"
 sqldelight = "2.0.2"
 startup = "1.1.1"
+jetbrainsKotlinJvm = "1.9.0"
 
 [libraries]
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
@@ -118,3 +119,4 @@ kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", versi
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 maven-publish = { id = "maven-publish" }
 sqldelight = { id = "app.cash.sqldelight", version.ref = "sqldelight" }
+jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvm" }

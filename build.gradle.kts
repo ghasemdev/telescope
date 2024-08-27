@@ -12,6 +12,7 @@ plugins {
     alias(libs.plugins.kotlin.multiplatform) apply false
     alias(libs.plugins.detekt)
     alias(libs.plugins.dokka)
+    alias(libs.plugins.jetbrains.kotlin.jvm) apply false
 }
 
 buildscript {

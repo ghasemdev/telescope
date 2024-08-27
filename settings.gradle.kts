@@ -17,3 +17,5 @@ dependencyResolutionManagement {
 }
 
 include(":composeApp")
+include(":gameservice")
+include(":gameservice-shared")

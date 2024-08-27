@@ -2,7 +2,6 @@ import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.BOOLEAN
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 
 plugins {
@@ -13,6 +12,8 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.sqldelight)
     id("com.codingfeline.buildkonfig")
+
+    id("app.cash.zipline") version "1.16.0"
 }
 
 buildkonfig {
@@ -99,6 +100,9 @@ kotlin {
             implementation(libs.navigation.compose)
             implementation(libs.napier)
             implementation(libs.sqldelight.coroutines)
+
+            implementation(project(":gameservice-shared"))
+            implementation("app.cash.zipline:zipline:1.16.0")
         }
         androidMain.dependencies {
             implementation(compose.preview)
@@ -111,11 +115,16 @@ kotlin {
             implementation(libs.slf4j.nop)
             implementation(libs.sqldelight.android.driver)
             implementation(libs.androidx.startup.runtime)
+
+            implementation("app.cash.zipline:zipline-loader:1.16.0")
+            implementation("app.cash.zipline:zipline-profiler:1.16.0")
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
             implementation(libs.androidx.annotation)
             implementation(libs.sqldelight.native.driver)
+
+            implementation("app.cash.zipline:zipline-loader:1.16.0")
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
