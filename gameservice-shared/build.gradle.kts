@@ -4,6 +4,7 @@ import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.zipline)
 }
 
 kotlin {
@@ -29,12 +30,6 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(libs.zipline)
-        }
-        iosMain.dependencies {
-            implementation(libs.androidx.annotation)
-        }
-        jvmMain.dependencies {
-            implementation(libs.androidx.annotation)
         }
     }
 }

@@ -6,5 +6,5 @@ import app.cash.zipline.Zipline
 @JsExport
 fun launchZipline() {
     val zipline = Zipline.get()
-    zipline.bind<GameService>("triviaService", GameServiceImpl())
+    zipline.bind<GameService>("gameService", GameServiceImpl())
 }
