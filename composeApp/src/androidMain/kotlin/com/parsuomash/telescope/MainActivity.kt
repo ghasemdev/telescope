@@ -15,9 +15,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.lifecycleScope
-import app.cash.zipline.loader.DefaultFreshnessCheckerNotFresh
+import app.cash.zipline.ZiplineManifest
+import app.cash.zipline.loader.FreshnessChecker
 import app.cash.zipline.loader.LoadResult
 import app.cash.zipline.loader.ManifestVerifier
+import app.cash.zipline.loader.ZiplineCache
 import app.cash.zipline.loader.ZiplineLoader
 import com.parsumash.gameservice.GameService
 import com.parsuomash.telescope.di.TelescopeKoinContext
@@ -27,9 +29,10 @@ import com.parsuomash.telescope.notifier.NotifierManager
 import com.parsuomash.telescope.notifier.ProvideNotificationConfiguration
 import com.parsuomash.telescope.notifier.extensions.onCreateOrOnNewIntent
 import com.parsuomash.telescope.notifier.permission.notificationPermissionRequester
+import java.io.File
 import java.util.concurrent.Executors
 import kotlin.time.Duration
-import kotlin.time.Duration.Companion.seconds
+import kotlin.time.Duration.Companion.minutes
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.asCoroutineDispatcher
@@ -38,6 +41,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
+import okio.FileSystem
+import okio.Path.Companion.toOkioPath
 import org.koin.android.ext.koin.androidContext
 
 class MainActivity : ActivityScope() {
@@ -85,15 +90,27 @@ class MainActivity : ActivityScope() {
 
         lifecycleScope.launch(dispatcher + SupervisorJob()) {
             val manifestUrl = "http://172.30.230.141:8080/manifest.zipline.json"
+            val cache = ZiplineCache(
+                context = this@MainActivity,
+                fileSystem = FileSystem.SYSTEM,
+                directory = File(cacheDir, "zipline_cache").toOkioPath(),
+                maxSizeInBytes = 10 * 1024 * 1024
+            )
             val loader = ZiplineLoader(
                 dispatcher,
                 ManifestVerifier.NO_SIGNATURE_CHECKS,
-                OkHttpClient(),
-            )
+                OkHttpClient()
+            ).withCache(cache, dispatcher)
+
             val loadResultFlow = loader.load(
                 applicationName = "game",
-                freshnessChecker = DefaultFreshnessCheckerNotFresh,
-                manifestUrlFlow = repeatFlow(manifestUrl, 1.seconds)
+                freshnessChecker = object : FreshnessChecker {
+                    override fun isFresh(
+                        manifest: ZiplineManifest,
+                        freshAtEpochMs: Long
+                    ): Boolean = (System.currentTimeMillis() - freshAtEpochMs) < 5.minutes.inWholeMilliseconds
+                },
+                manifestUrlFlow = repeatFlow(manifestUrl, 1.minutes)
             )
 
             var previousJob: Job? = null
