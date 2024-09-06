@@ -1,0 +1,23 @@
+{
+  "box": {
+    "modifiers": [
+      {
+        "size": "200.dp"
+      },
+      {
+        "background": "Blue"
+      }
+    ],
+    "content": {
+      "modifiers": [
+        {
+          "size": "100.px"
+        },
+        {
+          "background": "#000000"
+        }
+      ],
+      "content": null
+    }
+  }
+}
