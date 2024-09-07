@@ -10,7 +10,14 @@ plugins {
     alias(libs.plugins.jetbrains.compose) apply false
     alias(libs.plugins.compose.compiler) apply false
     alias(libs.plugins.kotlin.multiplatform) apply false
+    alias(libs.plugins.kotlin.jvm) apply false
+    alias(libs.plugins.kotlin.serialization) apply false
     alias(libs.plugins.zipline) apply false
+    alias(libs.plugins.redwood.schema) apply false
+    alias(libs.plugins.redwood.generator.compose) apply false
+    alias(libs.plugins.redwood.generator.widget) apply false
+    alias(libs.plugins.redwood.generator.modifiers) apply false
+    alias(libs.plugins.redwood.generator.protocol.guest) apply false
     alias(libs.plugins.detekt)
     alias(libs.plugins.dokka)
 }
@@ -19,6 +26,8 @@ buildscript {
     dependencies {
         classpath(libs.dokka.base)
         classpath(libs.buildkonfig.gradle.plugin)
+        classpath("app.cash.redwood.build:gradle-plugin:0.6.0")
+        classpath("app.cash.redwood:redwood-gradle-plugin:0.14.0")
     }
 }
 

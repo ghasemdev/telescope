@@ -60,13 +60,6 @@ kotlin {
         binaries.executable()
     }
 
-    androidTarget {
-        @OptIn(ExperimentalKotlinGradlePluginApi::class)
-        compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_17)
-        }
-    }
-
     jvm("desktop")
 
     listOf(
