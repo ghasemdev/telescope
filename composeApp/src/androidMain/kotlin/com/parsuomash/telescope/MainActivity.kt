@@ -30,7 +30,7 @@ import com.parsuomash.telescope.notifier.ProvideNotificationConfiguration
 import com.parsuomash.telescope.notifier.extensions.onCreateOrOnNewIntent
 import com.parsuomash.telescope.notifier.permission.notificationPermissionRequester
 import java.io.File
-import java.util.concurrent.Executors
+import java.util.concurrent.*
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.minutes
 import kotlinx.coroutines.Job
@@ -46,7 +46,7 @@ import okio.Path.Companion.toOkioPath
 import org.koin.android.ext.koin.androidContext
 
 class MainActivity : ActivityScope() {
-    private var game: String by mutableStateOf("")
+    private var game: String by mutableStateOf("yufuy")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -89,7 +89,7 @@ class MainActivity : ActivityScope() {
         val dispatcher = executorService.asCoroutineDispatcher()
 
         lifecycleScope.launch(dispatcher + SupervisorJob()) {
-            val manifestUrl = "http://172.30.230.141:8080/manifest.zipline.json"
+            val manifestUrl = "http://172.30.250.217:8080/manifest.zipline.json"
             val cache = ZiplineCache(
                 context = this@MainActivity,
                 fileSystem = FileSystem.SYSTEM,
