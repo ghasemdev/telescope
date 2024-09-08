@@ -14,8 +14,8 @@ kotlin {
         commonMain.dependencies {
             implementation(libs.jetbrains.compose.runtime)
             implementation(libs.kotlinx.serialization.core)
-            api("app.cash.redwood:redwood-treehouse:0.14.0")
-            implementation("app.cash.redwood:redwood-widget:0.14.0")
+            api(libs.redwood.treehouse)
+            implementation(libs.redwood.widget)
         }
     }
 }

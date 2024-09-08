@@ -2,10 +2,6 @@ plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.zipline)
 }
-//
-//redwoodBuild {
-//    ziplineApplication("emoji-search")
-//}
 
 kotlin {
     js {
@@ -22,15 +18,15 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             api(libs.okio)
-            api("app.cash.redwood:redwood-treehouse:0.14.0")
+            api(libs.redwood.treehouse)
         }
         jsMain.dependencies {
             implementation(libs.okio)
             api(projects.schema.compose)
-            api("app.cash.redwood:redwood-treehouse:0.14.0")
-            api("app.cash.redwood:redwood-treehouse-guest-compose:0.14.0")
+            api(libs.redwood.treehouse)
+            api(libs.redwood.treehouse.guest.compose)
 
-            api("app.cash.redwood:redwood-treehouse-guest:0.14.0")
+            api(libs.redwood.treehouse.guest)
             api(projects.presenter)
             implementation(projects.schema.protocolGuest)
         }

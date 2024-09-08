@@ -9,8 +9,8 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            api("app.cash.redwood:redwood-layout-compose:0.14.0")
-            api("app.cash.redwood:redwood-lazylayout-compose:0.14.0")
+            api(libs.redwood.layout.compose)
+            api(libs.redwood.lazylayout.compose)
             api(projects.schema.widget)
         }
     }

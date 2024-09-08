@@ -4,8 +4,8 @@ plugins {
 }
 
 dependencies {
-    api("app.cash.redwood:redwood-layout-schema:0.14.0")
-    api("app.cash.redwood:redwood-lazylayout-schema:0.14.0")
+    api(libs.redwood.layout.schema)
+    api(libs.redwood.lazylayout.schema)
     api(projects.values)
 }
 

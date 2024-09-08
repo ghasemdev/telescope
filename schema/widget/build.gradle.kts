@@ -12,8 +12,8 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            api("app.cash.redwood:redwood-layout-widget:0.14.0")
-            api("app.cash.redwood:redwood-lazylayout-widget:0.14.0")
+            api(libs.redwood.layout.widget)
+            api(libs.redwood.lazylayout.widget)
             api(projects.schema.modifiers)
             api(projects.values)
         }
