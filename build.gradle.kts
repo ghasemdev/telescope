@@ -1,6 +1,7 @@
 import io.gitlab.arturbosch.detekt.Detekt
 import org.jetbrains.dokka.base.DokkaBase
 import org.jetbrains.dokka.base.DokkaBaseConfiguration
+import org.jetbrains.kotlin.utils.addToStdlib.butIf
 
 plugins {
     // this is necessary to avoid the plugins to be loaded multiple times
@@ -31,6 +32,7 @@ buildscript {
     dependencies {
         classpath(libs.dokka.base)
         classpath(libs.buildkonfig.gradle.plugin)
+        classpath(libs.redwood.build)
     }
 }
 

@@ -3,6 +3,10 @@ plugins {
     alias(libs.plugins.zipline)
 }
 
+redwoodBuild {
+    ziplineApplication("emoji-search")
+}
+
 kotlin {
     js {
         // The name of the JS module which needs to be unique within the repo.

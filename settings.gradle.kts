@@ -2,6 +2,8 @@ rootProject.name = "Telescope"
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {
+    includeBuild("build-support/redwood-settings")
+
     repositories {
         gradlePluginPortal()
         mavenCentral()
@@ -9,10 +11,20 @@ pluginManagement {
     }
 }
 
+plugins {
+    id("app.cash.redwood.settings")
+}
+
 dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+    }
+}
+
+includeBuild("build-support") {
+    dependencySubstitution {
+        substitute(module("app.cash.redwood.build:gradle-plugin")).using(project(":"))
     }
 }
 
