@@ -29,8 +29,12 @@ includeBuild("build-support") {
 }
 
 include(":composeApp")
+
 include(":gameservice")
 include(":gameservice-shared")
+
+include(":launcher")
+include(":shared-composeui")
 include(":presenter")
 include(":presenter-treehouse")
 include(":schema")
@@ -38,4 +42,5 @@ include(":schema:compose")
 include(":schema:widget")
 include(":schema:modifiers")
 include(":schema:protocol-guest")
+include(":schema:protocol-host")
 include(":values")

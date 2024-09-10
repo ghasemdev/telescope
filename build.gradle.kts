@@ -23,6 +23,7 @@ plugins {
     alias(libs.plugins.redwood.generator.widget) apply false
     alias(libs.plugins.redwood.generator.modifiers) apply false
     alias(libs.plugins.redwood.generator.protocol.guest) apply false
+    alias(libs.plugins.redwood.generator.protocol.host) apply false
 
     alias(libs.plugins.detekt)
     alias(libs.plugins.dokka)

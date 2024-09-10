@@ -1,7 +1,5 @@
 import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.BOOLEAN
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
-import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.plugin.PLUGIN_CLASSPATH_CONFIGURATION_NAME
 import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 
@@ -14,6 +12,10 @@ plugins {
     alias(libs.plugins.sqldelight)
 
     id("com.codingfeline.buildkonfig")
+}
+
+redwoodBuild {
+    embedZiplineApplication(projects.presenterTreehouse)
 }
 
 buildkonfig {
@@ -111,6 +113,17 @@ kotlin {
 
             implementation(libs.zipline.loader)
             implementation(libs.zipline.profiler)
+
+            implementation(projects.launcher)
+            implementation(projects.presenterTreehouse)
+            implementation(projects.schema.protocolHost)
+            implementation(projects.sharedComposeui)
+
+            implementation(libs.redwood.layout.composeui)
+            implementation(libs.redwood.lazylayout.composeui)
+            implementation(libs.redwood.treehouse.host)
+            implementation(libs.redwood.treehouse.host.composeui)
+            implementation(libs.redwood.widget.compose)
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
