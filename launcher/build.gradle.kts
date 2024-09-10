@@ -21,3 +21,7 @@ kotlin {
         }
     }
 }
+
+android {
+    namespace = "com.parsuomash.launcher"
+}

@@ -20,5 +20,5 @@ kotlin {
 
 redwoodSchema {
     source = projects.schema
-    type = "com.example.redwood.emojisearch.EmojiSearch"
+    type = "com.parsumash.schema.EmojiSearch"
 }

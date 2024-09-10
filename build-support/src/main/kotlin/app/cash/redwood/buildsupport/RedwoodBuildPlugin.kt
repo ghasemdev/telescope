@@ -1,6 +1,5 @@
 package app.cash.redwood.buildsupport
 
-import app.cash.redwood.buildsupport.JsTests.NodeJs
 import app.cash.redwood.buildsupport.TargetGroup.Common
 import app.cash.redwood.buildsupport.TargetGroup.CommonWithAndroid
 import app.cash.redwood.buildsupport.TargetGroup.Tooling
@@ -14,7 +13,6 @@ import app.cash.redwood.buildsupport.TargetGroup.TreehouseGuest
 import app.cash.redwood.buildsupport.TargetGroup.TreehouseHost
 import com.android.build.api.variant.AndroidComponentsExtension
 import com.android.build.gradle.BaseExtension
-import com.diffplug.gradle.spotless.SpotlessExtension
 import com.vanniktech.maven.publish.MavenPublishBaseExtension
 import com.vanniktech.maven.publish.SonatypeHost
 import java.io.File
@@ -43,7 +41,7 @@ import org.gradle.api.tasks.testing.logging.TestLogEvent.FAILED
 import org.gradle.api.tasks.testing.logging.TestLogEvent.PASSED
 import org.gradle.api.tasks.testing.logging.TestLogEvent.SKIPPED
 import org.jetbrains.dokka.gradle.DokkaTaskPartial
-import org.jetbrains.kotlin.gradle.dsl.KotlinCompile
+import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.KotlinJsCompile
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
@@ -54,12 +52,13 @@ import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 import org.jetbrains.kotlin.gradle.plugin.mpp.NativeBuildType
 import org.jetbrains.kotlin.gradle.targets.jvm.KotlinJvmTarget
 import org.jetbrains.kotlin.gradle.tasks.FatFrameworkTask
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
 
 private const val REDWOOD_GROUP_ID = "app.cash.redwood"
 
 // HEY! If you change the major version update release.yaml doc folder.
-private const val REDWOOD_VERSION = "0.15.0-SNAPSHOT"
+private const val REDWOOD_VERSION = "0.17.0"
 
 private val isCiEnvironment = System.getenv("CI") == "true"
 
@@ -79,56 +78,9 @@ class RedwoodBuildPlugin : Plugin<Project> {
             RedwoodBuildExtensionImpl(target),
         )
 
-        target.configureCommonSpotless()
-        target.configureCommonTesting()
+//        target.configureCommonTesting()
         target.configureCommonAndroid()
         target.configureCommonKotlin()
-    }
-
-    private fun Project.configureCommonSpotless() {
-        plugins.apply("com.diffplug.spotless")
-        val spotless = extensions.getByName("spotless") as SpotlessExtension
-        val licenseHeaderFile = rootProject.file("gradle/license-header.txt")
-        spotless.apply {
-            // The nested build-support Gradle project contains Java sources. Use our root project to
-            // target its sources rather than duplicating the Spotless setup in multiple places.
-            if (path == ":") {
-                java {
-                    it.target("build-support/redwood-settings/src/**/*.java")
-                    it.googleJavaFormat(libs.googleJavaFormat.get().version)
-                    it.licenseHeaderFile(licenseHeaderFile)
-                }
-            }
-
-            kotlin {
-                // The nested build-support Gradle project contains Kotlin sources. Use our root project to
-                // target its sources rather than duplicating the Spotless setup in multiple places.
-                if (path == ":") {
-                    it.target("build-support/src/**/*.kt")
-                } else {
-                    it.target("src/**/*.kt")
-                    // Avoid 'build' folders within test fixture projects which may contain generated sources.
-                    it.targetExclude("src/test/fixture/**/build/**")
-                }
-                it.ktlint(libs.ktlint.get().version)
-                    .customRuleSets(
-                        listOf(
-                            libs.ktlintComposeRules.get().toString(),
-                        ),
-                    )
-                    .editorConfigOverride(
-                        mapOf(
-                            // Lowercase names are great for grouping multiple functions and/or types.
-                            "ktlint_standard_filename" to "disabled",
-                            // Making something an expression body should be a choice around readability.
-                            "ktlint_standard_function-expression-body" to "disabled",
-                            "ktlint_function_naming_ignore_when_annotated_with" to "Composable",
-                            "ktlint_compose_compositionlocal-allowlist" to "disabled",
-                        ),
-                    )
-                it.licenseHeaderFile(licenseHeaderFile)
-            }
-        }
     }
 
     private fun Project.configureCommonTesting() {
@@ -146,14 +98,14 @@ class RedwoodBuildPlugin : Plugin<Project> {
         plugins.withId("com.android.base") {
             val android = extensions.getByName("android") as BaseExtension
             android.apply {
-                compileSdkVersion(34)
+                compileSdkVersion(libs.versions.android.compileSdk.get().toInt())
                 compileOptions {
-                    it.sourceCompatibility = JavaVersion.VERSION_1_8
-                    it.targetCompatibility = JavaVersion.VERSION_1_8
+                    it.sourceCompatibility = JavaVersion.VERSION_17
+                    it.targetCompatibility = JavaVersion.VERSION_17
                 }
                 defaultConfig {
-                    it.minSdk = 21
-                    it.targetSdk = 33
+                    it.minSdk = libs.versions.android.minSdk.get().toInt()
+                    it.targetSdk = libs.versions.android.targetSdk.get().toInt()
                 }
                 lintOptions {
                     it.isCheckDependencies = true
@@ -179,15 +131,15 @@ class RedwoodBuildPlugin : Plugin<Project> {
 
         // Work around Guava problem. See https://github.com/cashapp/paparazzi/issues/906.
         plugins.withId("app.cash.paparazzi") {
-            dependencies.constraints {
-                it.add("testImplementation", "com.google.guava:guava") {
-                    it.attributes {
-                        it.attribute(
+            dependencies.constraints { dependencyConstraintHolder ->
+                dependencyConstraintHolder.add("testImplementation", "com.google.guava:guava") { dependencyConstraint ->
+                    dependencyConstraint.attributes { attributeContainer ->
+                        attributeContainer.attribute(
                             TargetJvmEnvironment.TARGET_JVM_ENVIRONMENT_ATTRIBUTE,
                             objects.named(TargetJvmEnvironment::class.java, TargetJvmEnvironment.STANDARD_JVM),
                         )
                     }
-                    it.because(
+                    dependencyConstraint.because(
                         "LayoutLib and sdk-common depend on Guava's -jre published variant." +
                             "See https://github.com/cashapp/paparazzi/issues/906.",
                     )
@@ -197,21 +149,20 @@ class RedwoodBuildPlugin : Plugin<Project> {
     }
 
     private fun Project.configureCommonKotlin() {
-        tasks.withType(KotlinCompile::class.java).configureEach {
-            it.kotlinOptions.freeCompilerArgs += listOf(
-                // https://kotlinlang.org/docs/whatsnew13.html#progressive-mode
-                "-progressive",
-                "-Xexpect-actual-classes",
+        tasks.withType(KotlinCompilationTask::class.java).configureEach {
+            it.compilerOptions.freeCompilerArgs.addAll(
+                listOf(
+                    // https://kotlinlang.org/docs/whatsnew13.html#progressive-mode
+                    "-progressive",
+                    "-Xexpect-actual-classes",
+                )
             )
         }
 
-        val javaVersion = JavaVersion.VERSION_1_8
+        val javaVersion = JavaVersion.VERSION_17
         tasks.withType(KotlinJvmCompile::class.java).configureEach {
-            it.kotlinOptions {
-                jvmTarget = javaVersion.toString()
-                freeCompilerArgs += listOf(
-                    "-Xjvm-default=all",
-                )
+            it.compilerOptions {
+                freeCompilerArgs.add("-Xjvm-default=all")
             }
         }
         // Kotlin requires the Java compatibility matches.
@@ -237,17 +188,6 @@ class RedwoodBuildPlugin : Plugin<Project> {
         plugins.withId("org.jetbrains.kotlin.multiplatform") {
             val kotlin = extensions.getByName("kotlin") as KotlinMultiplatformExtension
 
-            // We set the JVM target (the bytecode version) above for all Kotlin-based Java bytecode
-            // compilations, but we also need to set the JDK API version for the Kotlin JVM targets to
-            // prevent linking against newer JDK APIs (the Android targets link against the android.jar).
-            kotlin.targets.withType(KotlinJvmTarget::class.java) { target ->
-                target.compilations.configureEach {
-                    it.kotlinOptions.freeCompilerArgs += listOf(
-                        "-Xjdk-release=$javaVersion",
-                    )
-                }
-            }
-
             kotlin.targets.withType(KotlinNativeTarget::class.java) { target ->
                 target.binaries.withType(Framework::class.java) {
                     it.linkerOpts += "-lsqlite3"
@@ -259,7 +199,7 @@ class RedwoodBuildPlugin : Plugin<Project> {
             kotlin.targets.withType(KotlinNativeTarget::class.java) { target ->
                 target.binaries.configureEach {
                     if (it.buildType == NativeBuildType.RELEASE) {
-                        it.linkTask.enabled = false
+                        it.linkerOpts("-Xskip-linking")
                     }
                 }
             }
@@ -271,26 +211,29 @@ class RedwoodBuildPlugin : Plugin<Project> {
         }
 
         tasks.withType(KotlinJsCompile::class.java) {
-            it.kotlinOptions.freeCompilerArgs += listOf(
-                // https://github.com/JetBrains/compose-multiplatform/issues/3421
-                "-Xpartial-linkage=disable",
-                // https://github.com/JetBrains/compose-multiplatform/issues/3418
-                "-Xklib-enable-signature-clash-checks=false",
-                // Translate capturing lambdas into anonymous JS functions rather than hoisting parameters
-                // and creating a named sibling function. Only affects targets which produce actual JS.
-                "-Xir-generate-inline-anonymous-functions",
+            it.compilerOptions.freeCompilerArgs.addAll(
+                listOf(
+                    // https://github.com/JetBrains/compose-multiplatform/issues/3421
+                    "-Xpartial-linkage=disable",
+                    // https://github.com/JetBrains/compose-multiplatform/issues/3418
+                    "-Xklib-enable-signature-clash-checks=false",
+                    // Translate capturing lambdas into anonymous JS functions rather than hoisting parameters
+                    // and creating a named sibling function. Only affects targets which produce actual JS.
+                    "-Xir-generate-inline-anonymous-functions",
+                )
             )
         }
     }
 }
 
 private class RedwoodBuildExtensionImpl(private val project: Project) : RedwoodBuildExtension {
+    @OptIn(ExperimentalWasmDsl::class)
     override fun targets(modifiedGroup: ModifiedTargetGroup) {
         when (modifiedGroup.group) {
             Common -> {
                 project.applyKotlinMultiplatform {
                     iosTargets()
-                    modifiedGroup[JsTests, NodeJs].applyTo(js())
+                    js().nodejs()
                     jvm()
                     wasmJs().nodejs()
                 }
@@ -303,7 +246,7 @@ private class RedwoodBuildExtensionImpl(private val project: Project) : RedwoodB
                 project.applyKotlinMultiplatform {
                     androidTarget().publishLibraryVariants("release")
                     iosTargets()
-                    modifiedGroup[JsTests, NodeJs].applyTo(js())
+                    js().nodejs()
                     jvm()
                     wasmJs().nodejs()
                 }
@@ -411,8 +354,8 @@ private class RedwoodBuildExtensionImpl(private val project: Project) : RedwoodB
 
         val publishing = project.extensions.getByName("publishing") as PublishingExtension
         publishing.apply {
-            repositories {
-                it.maven {
+            repositories { repositoryHandler ->
+                repositoryHandler.maven {
                     it.name = "LocalMaven"
                     it.url = project.rootProject.layout.buildDirectory.asFile.get().resolve("localMaven").toURI()
                 }
@@ -431,10 +374,10 @@ private class RedwoodBuildExtensionImpl(private val project: Project) : RedwoodB
                 val internalUsername = project.providers.gradleProperty("internalUsername")
                 val internalPassword = project.providers.gradleProperty("internalPassword")
                 if (internalUrl.isPresent && internalUsername.isPresent && internalPassword.isPresent) {
-                    it.maven {
-                        it.name = "internal"
-                        it.setUrl(internalUrl)
-                        it.credentials {
+                    repositoryHandler.maven { mavenArtifactRepository ->
+                        mavenArtifactRepository.name = "internal"
+                        mavenArtifactRepository.setUrl(internalUrl)
+                        mavenArtifactRepository.credentials {
                             it.username = internalUsername.get()
                             it.password = internalPassword.get()
                         }
@@ -584,8 +527,8 @@ private class RedwoodBuildExtensionImpl(private val project: Project) : RedwoodB
                 it.isVisible = false
                 it.isCanBeResolved = false
                 it.isCanBeConsumed = true
-                it.attributes {
-                    it.attribute(ziplineAttribute, ZIPLINE_ATTRIBUTE_VALUE)
+                it.attributes { attributeContainer ->
+                    attributeContainer.attribute(ziplineAttribute, ZIPLINE_ATTRIBUTE_VALUE)
                 }
             }
             project.artifacts.add(ziplineConfiguration.name, zipTask)
@@ -607,8 +550,8 @@ private class RedwoodBuildExtensionImpl(private val project: Project) : RedwoodB
                 it.isVisible = false
                 it.isCanBeResolved = true
                 it.isCanBeConsumed = false
-                it.attributes {
-                    it.attribute(ziplineAttribute, ZIPLINE_ATTRIBUTE_VALUE)
+                it.attributes { attributeContainer ->
+                    attributeContainer.attribute(ziplineAttribute, ZIPLINE_ATTRIBUTE_VALUE)
                 }
             }
             project.dependencies.add(ziplineConfiguration.name, dependencyNotation)

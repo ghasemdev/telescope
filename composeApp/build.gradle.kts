@@ -1,7 +1,5 @@
 import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.BOOLEAN
-import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.plugin.PLUGIN_CLASSPATH_CONFIGURATION_NAME
-import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
@@ -46,23 +44,29 @@ kotlin {
 //        binaries.executable()
 //    }
 
-    js(IR) {
-        useEsModules()
-        browser {
-            commonWebpackConfig {
-                outputFileName = "app.js"
-                devServer = (devServer ?: KotlinWebpackConfig.DevServer()).apply {
-                    static = (static ?: mutableListOf()).apply {
-                        add(project.projectDir.path)
-                    }
-                }
-            }
-            useCommonJs()
-        }
-        binaries.executable()
-    }
+//    js(IR) {
+//        useEsModules()
+//        browser {
+//            commonWebpackConfig {
+//                outputFileName = "app.js"
+//                devServer = (devServer ?: KotlinWebpackConfig.DevServer()).apply {
+//                    static = (static ?: mutableListOf()).apply {
+//                        add(project.projectDir.path)
+//                    }
+//                }
+//            }
+//            testTask {
+//                useKarma {
+//                    useChromeHeadless()
+//                }
+//            }
+//            useCommonJs()
+//        }
+//        binaries.executable()
+//    }
 
-    jvm("desktop")
+    androidTarget()
+//    jvm("desktop")
 
     listOf(
         iosX64(),
@@ -77,7 +81,7 @@ kotlin {
     }
 
     sourceSets {
-        val desktopMain by getting
+//        val desktopMain by getting
 
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -132,23 +136,23 @@ kotlin {
 
             implementation(libs.zipline.loader)
         }
-        desktopMain.dependencies {
-            implementation(compose.desktop.currentOs)
-            implementation(libs.ktor.client.okhttp)
-            implementation(libs.androidx.annotation)
-            implementation(libs.kotlinx.coroutines.swing)
-            implementation(libs.slf4j.nop)
-            implementation(libs.sqldelight.sqlite.driver)
-        }
-        jsMain.dependencies {
-            implementation(libs.ktor.client.js)
-            implementation(npm("@js-joda/timezone", "2.3.0"))
-
-            implementation(libs.sqldelight.web.driver)
-            implementation(npm("sql.js", "1.10.3"))
-            implementation(npm("@cashapp/sqldelight-sqljs-worker", libs.versions.sqldelight.get()))
-            implementation(devNpm("copy-webpack-plugin", "9.1.0"))
-        }
+//        desktopMain.dependencies {
+//            implementation(compose.desktop.currentOs)
+//            implementation(libs.ktor.client.okhttp)
+//            implementation(libs.androidx.annotation)
+//            implementation(libs.kotlinx.coroutines.swing)
+//            implementation(libs.slf4j.nop)
+//            implementation(libs.sqldelight.sqlite.driver)
+//        }
+//        jsMain.dependencies {
+//            implementation(libs.ktor.client.js)
+//            implementation(npm("@js-joda/timezone", "2.3.0"))
+//
+//            implementation(libs.sqldelight.web.driver)
+//            implementation(npm("sql.js", "1.10.3"))
+//            implementation(npm("@cashapp/sqldelight-sqljs-worker", libs.versions.sqldelight.get()))
+//            implementation(devNpm("copy-webpack-plugin", "9.1.0"))
+//        }
 //        wasmJsMain.dependencies {
 //            implementation(libs.ktor.client.js)
 //            implementation(npm("@js-joda/timezone", "2.3.0"))
@@ -210,19 +214,19 @@ android {
     }
 }
 
-compose.desktop {
-    application {
-        mainClass = "com.parsuomash.telescope.MainKt"
-
-        nativeDistributions {
-            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "com.parsuomash.telescope"
-            packageVersion = "1.0.0"
-        }
-
-        buildTypes.release.proguard {
-            obfuscate.set(true)
-            configurationFiles.from(project.file("assemble/proguard-rules.pro"))
-        }
-    }
-}
+//compose.desktop {
+//    application {
+//        mainClass = "com.parsuomash.telescope.MainKt"
+//
+//        nativeDistributions {
+//            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
+//            packageName = "com.parsuomash.telescope"
+//            packageVersion = "1.0.0"
+//        }
+//
+//        buildTypes.release.proguard {
+//            obfuscate.set(true)
+//            configurationFiles.from(project.file("assemble/proguard-rules.pro"))
+//        }
+//    }
+//}
