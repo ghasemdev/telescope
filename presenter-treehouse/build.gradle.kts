@@ -38,5 +38,5 @@ kotlin {
 }
 
 zipline {
-    mainFunction = "com.example.redwood.emojisearch.treehouse.preparePresenters"
+    mainFunction = "com.parsumash.treehouse.preparePresenters"
 }
