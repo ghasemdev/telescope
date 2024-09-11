@@ -27,6 +27,7 @@ plugins {
 
     alias(libs.plugins.detekt)
     alias(libs.plugins.dokka)
+    alias(libs.plugins.jetbrains.kotlin.android) apply false
 }
 
 buildscript {

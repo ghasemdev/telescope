@@ -99,6 +99,7 @@ kotlin {
             implementation(libs.navigation.compose)
             implementation(libs.napier)
             implementation(libs.sqldelight.coroutines)
+            implementation(libs.okio.assetfilesystem)
 
             implementation(project(":gameservice-shared"))
             implementation(libs.zipline)
@@ -114,6 +115,7 @@ kotlin {
             implementation(libs.slf4j.nop)
             implementation(libs.sqldelight.android.driver)
             implementation(libs.androidx.startup.runtime)
+            implementation(libs.coil.network.okhttp)
 
             implementation(libs.zipline.loader)
             implementation(libs.zipline.profiler)
