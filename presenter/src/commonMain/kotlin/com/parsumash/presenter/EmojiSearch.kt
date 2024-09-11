@@ -29,7 +29,7 @@ import app.cash.redwood.ui.dp
 import com.parsumash.schema.compose.Image
 import com.parsumash.schema.compose.Text
 import com.parsumash.schema.compose.TextInput
-import com.parsumash.schema.compose.reuse
+import com.parsumash.schema.compose.border
 import com.parsumash.values.TextFieldState
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
@@ -111,7 +111,7 @@ fun EmojiSearch(
         margin = safeAreaInsets,
         modifier = modifier,
     ) {
-        Text(text = "Hi Saeed KHobi")
+        Text(text = "Hi Saeed YES")
         TextInput(
             state = TextFieldState(searchTerm.text),
             hint = "Search",
@@ -130,6 +130,11 @@ fun EmojiSearch(
                 searchTerm = textFieldState
             },
         )
+        Image(
+            url = "https://avatars.githubusercontent.com/u/65798992?v=4",
+            onClick = null,
+            modifier = Modifier.size(300.dp, 300.dp).border("black")
+        )
         LazyColumn(
             refreshing = refreshing,
             onRefresh = { refreshSignal++ },
@@ -145,7 +150,7 @@ fun EmojiSearch(
         ) {
             items(filteredEmojis) { image ->
                 Item(
-                    modifier = Modifier.reuse(),
+                    modifier = Modifier,
                     emojiImage = image,
                     onClick = {
                         navigator.openUrl(image.url)

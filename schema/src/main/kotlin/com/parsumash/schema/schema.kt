@@ -14,7 +14,7 @@ import com.parsumash.values.TextFieldState
         TextInput::class,
         Text::class,
         Image::class,
-        Reuse::class,
+        Border::class,
     ],
     dependencies = [
         Dependency(1, RedwoodLayout::class),
@@ -44,5 +44,7 @@ data class Image(
     @Property(2) val onClick: (() -> Unit)? = null,
 )
 
-@Modifier(-4_543_827) // -4_543_827 is a reserved tag.
-object Reuse
+@Modifier(1)
+data class Border(
+    val color: String,
+)

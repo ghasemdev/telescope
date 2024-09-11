@@ -2,8 +2,7 @@ package com.parsumash.launcher
 
 import app.cash.redwood.treehouse.TreehouseApp
 import app.cash.zipline.Zipline
-import app.cash.zipline.ZiplineManifest
-import app.cash.zipline.loader.FreshnessChecker
+import app.cash.zipline.loader.DefaultFreshnessCheckerNotFresh
 import com.parsumash.treehouse.EmojiSearchPresenter
 import com.parsumash.treehouse.HostApi
 import com.parsumash.treehouse.emojiSearchSerializersModule
@@ -16,9 +15,7 @@ class EmojiSearchAppSpec(
     override val name get() = "emoji-search"
     override val serializersModule get() = emojiSearchSerializersModule
 
-    override val freshnessChecker = object : FreshnessChecker {
-        override fun isFresh(manifest: ZiplineManifest, freshAtEpochMs: Long) = false
-    }
+    override val freshnessChecker = DefaultFreshnessCheckerNotFresh
 
     override suspend fun bindServices(
         treehouseApp: TreehouseApp<EmojiSearchPresenter>,

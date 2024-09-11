@@ -2,7 +2,7 @@ package com.parsumash.composeui
 
 import androidx.compose.runtime.Composable
 import coil3.ImageLoader
-import com.parsumash.schema.modifier.Reuse
+import com.parsumash.schema.modifier.Border
 import com.parsumash.schema.widget.EmojiSearchWidgetFactory
 import com.parsumash.schema.widget.Image
 import com.parsumash.schema.widget.Text
@@ -13,6 +13,7 @@ class ComposeUiEmojiSearchWidgetFactory(
 ) : EmojiSearchWidgetFactory<@Composable () -> Unit> {
     override fun TextInput(): TextInput<@Composable () -> Unit> = ComposeUiTextInput()
     override fun Text(): Text<@Composable () -> Unit> = ComposeUiText()
-    override fun Reuse(value: @Composable () -> Unit, modifier: Reuse) {}
     override fun Image(): Image<@Composable () -> Unit> = ComposeUiImage(imageLoader)
+    override fun Border(value: @Composable () -> Unit, modifier: Border) {
+    }
 }
