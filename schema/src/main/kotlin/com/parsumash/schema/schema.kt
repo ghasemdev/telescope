@@ -13,6 +13,7 @@ import com.parsumash.values.TextFieldState
     members = [
         TextInput::class,
         Text::class,
+        Image::class,
         Reuse::class,
     ],
     dependencies = [

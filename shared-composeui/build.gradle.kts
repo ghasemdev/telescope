@@ -12,6 +12,7 @@ dependencies {
     implementation(libs.jetbrains.compose.material)
     implementation(libs.jetbrains.compose.ui)
     implementation(libs.jetbrains.compose.ui.tooling.preview)
+    implementation(libs.coil.compose)
 }
 
 tasks.withType<JavaCompile>().configureEach {
