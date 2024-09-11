@@ -14,6 +14,5 @@ class ComposeUiEmojiSearchWidgetFactory(
     override fun TextInput(): TextInput<@Composable () -> Unit> = ComposeUiTextInput()
     override fun Text(): Text<@Composable () -> Unit> = ComposeUiText()
     override fun Image(): Image<@Composable () -> Unit> = ComposeUiImage(imageLoader)
-    override fun Border(value: @Composable () -> Unit, modifier: Border) {
-    }
+    override fun Border(value: @Composable () -> Unit, modifier: Border) {}
 }

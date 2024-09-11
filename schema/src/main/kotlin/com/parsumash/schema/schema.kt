@@ -46,5 +46,5 @@ data class Image(
 
 @Modifier(1)
 data class Border(
-    val color: String,
+    val color: Int,
 )

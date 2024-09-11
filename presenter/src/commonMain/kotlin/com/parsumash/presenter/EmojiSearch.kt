@@ -133,7 +133,7 @@ fun EmojiSearch(
         Image(
             url = "https://avatars.githubusercontent.com/u/65798992?v=4",
             onClick = null,
-            modifier = Modifier.size(300.dp, 300.dp).border("black")
+            modifier = Modifier.size(300.dp, 300.dp).border(0x000000)
         )
         LazyColumn(
             refreshing = refreshing,
