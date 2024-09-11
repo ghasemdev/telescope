@@ -14,5 +14,5 @@ class ComposeUiEmojiSearchWidgetFactory(
     override fun TextInput(): TextInput<@Composable () -> Unit> = ComposeUiTextInput()
     override fun Text(): Text<@Composable () -> Unit> = ComposeUiText()
     override fun Reuse(value: @Composable () -> Unit, modifier: Reuse) {}
-    override fun Image(): Image<() -> Unit> = ComposeUiImage(imageLoader)
+    override fun Image(): Image<@Composable () -> Unit> = ComposeUiImage(imageLoader)
 }

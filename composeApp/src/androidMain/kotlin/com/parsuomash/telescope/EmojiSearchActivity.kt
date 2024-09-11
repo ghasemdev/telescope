@@ -143,7 +143,7 @@ class EmojiSearchActivity : ComponentActivity() {
             leakDetector = leakDetector,
         )
 
-        val manifestUrlFlow = flowOf("http://10.0.2.2:8080/manifest.zipline.json")
+        val manifestUrlFlow = flowOf("http://172.30.230.134/manifest.zipline.json")
             .withDevelopmentServerPush(httpClient.asZiplineHttpClient())
 
         val treehouseApp = treehouseAppFactory.create(

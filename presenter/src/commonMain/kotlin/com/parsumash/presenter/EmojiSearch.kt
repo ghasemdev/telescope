@@ -111,6 +111,7 @@ fun EmojiSearch(
         margin = safeAreaInsets,
         modifier = modifier,
     ) {
+        Text(text = "Hi Saeed KHobi")
         TextInput(
             state = TextFieldState(searchTerm.text),
             hint = "Search",

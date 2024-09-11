@@ -17,7 +17,7 @@ class EmojiSearchAppSpec(
     override val serializersModule get() = emojiSearchSerializersModule
 
     override val freshnessChecker = object : FreshnessChecker {
-        override fun isFresh(manifest: ZiplineManifest, freshAtEpochMs: Long) = true
+        override fun isFresh(manifest: ZiplineManifest, freshAtEpochMs: Long) = false
     }
 
     override suspend fun bindServices(
