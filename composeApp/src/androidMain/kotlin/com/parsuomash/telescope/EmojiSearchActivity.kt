@@ -143,7 +143,7 @@ class EmojiSearchActivity : ComponentActivity() {
             leakDetector = leakDetector,
         )
 
-        val manifestUrlFlow = flowOf("http://172.30.230.154:8080/manifest.zipline.json")
+        val manifestUrlFlow = flowOf("http://172.30.230.156:8080/manifest.zipline.json")
             .withDevelopmentServerPush(
                 httpClient = httpClient.asZiplineHttpClient(),
                 pollingInterval = 1.seconds

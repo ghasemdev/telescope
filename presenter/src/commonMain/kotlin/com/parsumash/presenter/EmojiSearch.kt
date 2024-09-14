@@ -18,6 +18,7 @@ import app.cash.redwood.compose.LocalUiConfiguration
 import app.cash.redwood.layout.api.Constraint
 import app.cash.redwood.layout.api.CrossAxisAlignment
 import app.cash.redwood.layout.api.MainAxisAlignment
+import app.cash.redwood.layout.compose.Box
 import app.cash.redwood.layout.compose.Column
 import app.cash.redwood.layout.compose.Row
 import app.cash.redwood.lazylayout.compose.ExperimentalRedwoodLazyLayoutApi
@@ -29,7 +30,7 @@ import app.cash.redwood.ui.dp
 import com.parsumash.schema.compose.Image
 import com.parsumash.schema.compose.Text
 import com.parsumash.schema.compose.TextInput
-import com.parsumash.schema.compose.border
+import com.parsumash.schema.compose.circleClip
 import com.parsumash.values.TextFieldState
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
@@ -111,6 +112,13 @@ fun EmojiSearch(
         margin = safeAreaInsets,
         modifier = modifier,
     ) {
+        Box {
+            Image(
+                url = "https://avatars.githubusercontent.com/u/65798992?v=4",
+                onClick = null,
+                modifier = Modifier.circleClip()
+            )
+        }
         Text(text = "Hi Saeed YES")
         TextInput(
             state = TextFieldState(searchTerm.text),
@@ -129,11 +137,6 @@ fun EmojiSearch(
 
                 searchTerm = textFieldState
             },
-        )
-        Image(
-            url = "https://avatars.githubusercontent.com/u/65798992?v=4",
-            onClick = null,
-            modifier = Modifier.size(300.dp, 300.dp).border(0x000000)
         )
         LazyColumn(
             refreshing = refreshing,

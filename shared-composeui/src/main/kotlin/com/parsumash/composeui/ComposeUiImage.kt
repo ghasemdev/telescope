@@ -1,20 +1,18 @@
 package com.parsumash.composeui
 
 import app.cash.redwood.Modifier as RedwoodModifier
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import coil3.ImageLoader
 import coil3.compose.AsyncImage
-import com.parsumash.schema.modifier.Border
 import com.parsumash.schema.widget.Image
 
 internal class ComposeUiImage(
@@ -26,23 +24,21 @@ internal class ComposeUiImage(
     override var modifier: RedwoodModifier = RedwoodModifier
 
     override val value = @Composable {
-        val composeModifier = Modifier.apply {
-            modifier.forEachUnscoped {
-                if (it is Border) {
-                    border(1.dp, color = Color(it.color), CircleShape)
-                }
-            }
+        val composeModifier = if (modifier.toString().contains("CircleClip")) {
+            Modifier.clip(CircleShape)
+        } else {
+            Modifier
         }
 
-        AsyncImage(
-            model = url,
-            imageLoader = imageLoader,
-            contentDescription = null,
-            modifier = Modifier
-                .size(48.dp)
-                .then(composeModifier)
-                .clickable(onClick = onClick),
-        )
+        Box(modifier = composeModifier) {
+            AsyncImage(
+                model = url,
+                imageLoader = imageLoader,
+                contentDescription = null,
+                modifier = Modifier.clickable(onClick = onClick),
+                contentScale = ContentScale.Crop
+            )
+        }
     }
 
     override fun url(url: String) {

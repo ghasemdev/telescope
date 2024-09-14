@@ -14,7 +14,7 @@ import com.parsumash.values.TextFieldState
         TextInput::class,
         Text::class,
         Image::class,
-        Border::class,
+        CircleClip::class,
     ],
     dependencies = [
         Dependency(1, RedwoodLayout::class),
@@ -45,6 +45,4 @@ data class Image(
 )
 
 @Modifier(1)
-data class Border(
-    val color: Int,
-)
+data object CircleClip
