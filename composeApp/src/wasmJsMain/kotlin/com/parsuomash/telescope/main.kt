@@ -1,8 +1,15 @@
 package com.parsuomash.telescope
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.ComposeViewport
 import com.parsuomash.telescope.di.TelescopeKoinContext
 import com.parsuomash.telescope.notifier.NotificationConfiguration
@@ -25,7 +32,16 @@ fun main() {
         }
 
         ProvideNotificationConfiguration(notificationConfiguration) {
-            App()
+            Box(Modifier.fillMaxSize().background(Color.Blue)) {
+                Box(Modifier.fillMaxSize().padding(100.dp).background(Color.Red)) {
+                    Box(Modifier.fillMaxSize().padding(100.dp).background(Color.Blue)) {
+                        Box(Modifier.fillMaxSize().padding(100.dp).background(Color.Red)) {
+                            Box(Modifier.fillMaxSize().padding(100.dp).background(Color.Blue)) {
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }
