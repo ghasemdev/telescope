@@ -3,7 +3,10 @@ package com.parsuomash.telescope
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Bitmap
+import android.os.Build
 import android.os.Bundle
+import android.webkit.PermissionRequest
+import android.webkit.WebChromeClient
 import android.webkit.WebResourceError
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
@@ -67,6 +70,11 @@ class MainActivity : ActivityScope() {
         var isLoading: Boolean by remember { mutableStateOf(false) }
         val webView = remember {
             WebView(context).apply {
+                webChromeClient = object : WebChromeClient() {
+                    override fun onPermissionRequest(request: PermissionRequest?) {
+                        request?.grant(request.resources)
+                    }
+                }
                 webViewClient = object : WebViewClient() {
                     override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
                         isLoading = true
@@ -89,10 +97,19 @@ class MainActivity : ActivityScope() {
                         request: WebResourceRequest?
                     ): Boolean = false
                 }
-
                 settings.javaScriptEnabled = true
                 settings.domStorageEnabled = true
-                settings.loadWithOverviewMode = true
+                settings.allowFileAccess = true
+                settings.allowContentAccess = true
+                settings.setSupportZoom(true)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    settings.safeBrowsingEnabled = false
+                }
+                settings.userAgentString =
+                    "Mozilla/5.0 (Linux; Android 10; Pixel 4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.101 Mobile Safari/537.36"
+                settings.allowFileAccessFromFileURLs = true
+                settings.allowUniversalAccessFromFileURLs = true
+
             }
         }
 
