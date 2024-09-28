@@ -37,21 +37,17 @@ kotlin {
         binaries.executable()
     }
 
-//    js(IR) {
-//        useEsModules()
-//        browser {
-//            commonWebpackConfig {
-//                outputFileName = "app.js"
-//                devServer = (devServer ?: KotlinWebpackConfig.DevServer()).apply {
-//                    static = (static ?: mutableListOf()).apply {
-//                        add(project.projectDir.path)
-//                    }
-//                }
-//            }
-//            useCommonJs()
-//        }
-//        binaries.executable()
-//    }
+    js(IR) {
+        useEsModules()
+        browser {
+            commonWebpackConfig {
+                outputFileName = "app.js"
+                sourceMaps = false
+            }
+            useCommonJs()
+        }
+        binaries.executable()
+    }
 
     androidTarget {
         @OptIn(ExperimentalKotlinGradlePluginApi::class)

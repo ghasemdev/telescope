@@ -10,9 +10,11 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.Toast
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.Box
+import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -36,6 +38,7 @@ import org.koin.android.ext.koin.androidContext
 class MainActivity : ActivityScope() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
 
         TelescopeKoinContext.start {
             androidContext(applicationContext)
@@ -89,10 +92,7 @@ class MainActivity : ActivityScope() {
                         request: WebResourceRequest?
                     ): Boolean = false
                 }
-
                 settings.javaScriptEnabled = true
-                settings.domStorageEnabled = true
-                settings.loadWithOverviewMode = true
             }
         }
 
@@ -102,7 +102,9 @@ class MainActivity : ActivityScope() {
             }
         }
 
-        Box(modifier = Modifier.fillMaxSize()) {
+        Column(modifier = Modifier
+          .fillMaxSize()
+          .systemBarsPadding()) {
             if (isLoading) {
                 LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
             }
