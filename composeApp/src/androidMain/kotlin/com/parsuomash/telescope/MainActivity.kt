@@ -96,6 +96,8 @@ class MainActivity : ActivityScope() {
                 }
 
                 settings.javaScriptEnabled = true
+                settings.loadWithOverviewMode = true
+                settings.domStorageEnabled = true
             }
         }
 

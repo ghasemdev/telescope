@@ -89,6 +89,9 @@ kotlin {
             implementation(libs.navigation.compose)
             implementation(libs.napier)
 //            implementation(libs.sqldelight.coroutines)
+            implementation(libs.voyager.navigator)
+            implementation(libs.voyager.screenmodel)
+            implementation(libs.voyager.transitions)
         }
         androidMain.dependencies {
             implementation(compose.preview)
