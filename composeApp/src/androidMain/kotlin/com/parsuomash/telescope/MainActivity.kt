@@ -11,6 +11,7 @@ import android.webkit.WebViewClient
 import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -23,6 +24,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.viewinterop.AndroidView
@@ -58,7 +60,7 @@ class MainActivity : ActivityScope() {
             }
 
             ProvideNotificationConfiguration(notificationConfiguration) {
-                WebViewScreen(url = "http://192.168.1.96:8080/")
+                WebViewScreen(url = "http://172.30.230.147:8080/")
             }
         }
     }
@@ -105,11 +107,15 @@ class MainActivity : ActivityScope() {
 
         Column(
             modifier = Modifier
-              .fillMaxSize()
-              .systemBarsPadding()
+                .fillMaxSize()
+                .background(Color(0xFF152132))
+                .systemBarsPadding()
         ) {
             if (isLoading) {
-                LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
+                LinearProgressIndicator(
+                    modifier = Modifier.fillMaxWidth(),
+                    color = Color(0XFF40BED0)
+                )
             }
             AndroidView(
                 modifier = Modifier.fillMaxSize(),

@@ -18,12 +18,17 @@ import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
+import androidx.compose.material.TextField
+import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -55,6 +60,8 @@ fun main() {
                 Font(resource = Res.font.byekan_bold, FontWeight.Bold)
             )
 
+            var phone by remember { mutableStateOf("") }
+
             val notificationConfiguration = remember {
                 NotificationConfiguration.Web(notificationIconPath = "telescope.png")
             }
@@ -77,7 +84,6 @@ fun main() {
                         ) {
                             Box(
                                 modifier = Modifier.fillMaxWidth()
-
                             ) {
                                 Text(
                                     text = "امضاء دیجیتال",
@@ -128,6 +134,32 @@ fun main() {
                                     verticalArrangement = Arrangement.SpaceBetween
                                 ) {
                                     Column {
+                                        TextField(
+                                            value = phone,
+                                            onValueChange = { phone = it },
+                                            modifier = Modifier.fillMaxWidth().requiredHeightIn(54.dp),
+                                            placeholder = {
+                                                Text(
+                                                    text = "شماره موبایل",
+                                                    color = Color(0xFFCCCACF),
+                                                    fontSize = 16.sp,
+                                                    fontWeight = FontWeight.Normal,
+                                                    fontFamily = byekanFamily
+                                                )
+                                            },
+                                            singleLine = true,
+                                            shape = RoundedCornerShape(16.dp),
+                                            colors = TextFieldDefaults.textFieldColors(
+                                                textColor = Color.White,
+                                                backgroundColor = Color(0xFF19273B),
+                                                cursorColor = Color(0xFF50CD89),
+                                                focusedLabelColor = Color.Transparent,
+                                                focusedIndicatorColor = Color.Transparent,
+                                                errorIndicatorColor = Color.Transparent,
+                                                unfocusedIndicatorColor = Color.Transparent,
+                                                disabledIndicatorColor = Color.Transparent
+                                            ),
+                                        )
                                     }
                                     Button(
                                         modifier = Modifier
