@@ -92,6 +92,7 @@ class MainActivity : ActivityScope() {
                         request: WebResourceRequest?
                     ): Boolean = false
                 }
+
                 settings.javaScriptEnabled = true
             }
         }
@@ -102,9 +103,11 @@ class MainActivity : ActivityScope() {
             }
         }
 
-        Column(modifier = Modifier
-          .fillMaxSize()
-          .systemBarsPadding()) {
+        Column(
+            modifier = Modifier
+              .fillMaxSize()
+              .systemBarsPadding()
+        ) {
             if (isLoading) {
                 LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
             }
