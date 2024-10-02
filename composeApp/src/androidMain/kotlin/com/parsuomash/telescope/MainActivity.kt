@@ -9,6 +9,7 @@ import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.Toast
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
@@ -28,6 +29,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.viewinterop.AndroidView
+import com.parsuomash.telescope.bridge.JavaScriptInterface
 import com.parsuomash.telescope.di.TelescopeKoinContext
 import com.parsuomash.telescope.di.scope.ActivityScope
 import com.parsuomash.telescope.notifier.NotificationConfiguration
@@ -98,8 +100,21 @@ class MainActivity : ActivityScope() {
                 settings.javaScriptEnabled = true
                 settings.loadWithOverviewMode = true
                 settings.domStorageEnabled = true
+
+                // Add a JavaScript interface to allow communication between JavaScript and Kotlin
+                addJavascriptInterface(
+                    JavaScriptInterface(
+                        toastCallback = {
+                            Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+                        },
+                        nationalCode = "0925277800"
+                    ), "JSInterface"
+                )
+
             }
         }
+
+        BackHandler { }
 
         DisposableEffect(Unit) {
             onDispose {
@@ -122,7 +137,9 @@ class MainActivity : ActivityScope() {
             AndroidView(
                 modifier = Modifier.fillMaxSize(),
                 factory = { webView },
-                update = { it.loadUrl(url) }
+                update = { view ->
+                    view.loadUrl(url)
+                }
             )
         }
     }

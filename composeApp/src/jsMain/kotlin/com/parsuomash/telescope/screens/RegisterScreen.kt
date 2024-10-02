@@ -5,6 +5,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -47,23 +48,17 @@ import androidx.window.core.layout.WindowWidthSizeClass
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
+import com.parsuomash.telescope.theme.LocalFontFamily
 import kotlinx.coroutines.launch
-import org.jetbrains.compose.resources.Font
-import telescope.composeapp.generated.resources.Res
-import telescope.composeapp.generated.resources.byekan
-import telescope.composeapp.generated.resources.byekan_bold
 
 class RegisterScreen : Screen {
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
+        val byekanFamily = LocalFontFamily.current
+
         val coroutineScope = rememberCoroutineScope()
         val sheetState = rememberModalBottomSheetState(Hidden)
-
-        val byekanFamily = FontFamily(
-            Font(resource = Res.font.byekan, FontWeight.Normal),
-            Font(resource = Res.font.byekan_bold, FontWeight.Bold)
-        )
 
         Surface(
             modifier = Modifier
@@ -151,23 +146,32 @@ class RegisterScreen : Screen {
         }
     }
 
+    private fun getNationalCode(): String {
+        return try {
+            js("JSInterface.getNationalCode();").unsafeCast<String>()
+        } catch (e: Throwable) {
+            ""
+        }
+    }
+
     @Composable
     private fun Screen(
         byekanFamily: FontFamily,
         sheetState: ModalBottomSheetState
     ) {
         var phone by remember { mutableStateOf("") }
-        var natonal by remember { mutableStateOf("") }
+        var natonal by remember { mutableStateOf(getNationalCode()) }
         val coroutineScope = rememberCoroutineScope()
 
         Column(
             modifier = Modifier
-                .fillMaxSize(
+                .fillMaxWidth(
                     if (currentWindowAdaptiveInfo()
                             .windowSizeClass
                             .windowWidthSizeClass == WindowWidthSizeClass.COMPACT
-                    ) .5f else 1f
+                    ) 1f else .5f
                 )
+                .fillMaxHeight()
                 .padding(16.dp)
         ) {
             Icon(
