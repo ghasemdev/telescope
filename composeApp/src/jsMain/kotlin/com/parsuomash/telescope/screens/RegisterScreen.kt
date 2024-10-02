@@ -18,6 +18,7 @@ import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.ModalBottomSheetLayout
+import androidx.compose.material.ModalBottomSheetState
 import androidx.compose.material.ModalBottomSheetValue.Hidden
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -27,6 +28,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.rememberModalBottomSheetState
+import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -41,6 +43,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.window.core.layout.WindowWidthSizeClass
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
@@ -54,10 +57,8 @@ class RegisterScreen : Screen {
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
-
-        var phone by remember { mutableStateOf("") }
-        var natonal by remember { mutableStateOf("") }
         val coroutineScope = rememberCoroutineScope()
+        val sheetState = rememberModalBottomSheetState(Hidden)
 
         val byekanFamily = FontFamily(
             Font(resource = Res.font.byekan, FontWeight.Normal),
@@ -69,7 +70,6 @@ class RegisterScreen : Screen {
                 .fillMaxSize(),
             color = Color(0xFF152132)
         ) {
-            val sheetState = rememberModalBottomSheetState(Hidden)
             ModalBottomSheetLayout(
                 sheetContent = {
                     Column(
@@ -120,7 +120,8 @@ class RegisterScreen : Screen {
                 sheetContentColor = Color(0xFF19273B)
             ) {
                 Column(
-                    modifier = Modifier.fillMaxSize()
+                    modifier = Modifier.fillMaxSize(),
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Box(
                         modifier = Modifier.fillMaxWidth()
@@ -144,131 +145,148 @@ class RegisterScreen : Screen {
                             )
                         }
                     }
-                    Column(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(16.dp)
-                    ) {
-                        Icon(
-                            modifier = Modifier
-                                .align(Alignment.CenterHorizontally)
-                                .padding(48.dp)
-                                .border(width = 1.dp, color = Color(0xFF21354F), shape = CircleShape)
-                                .size(128.dp)
-                                .background(color = Color(0xFF19273B), shape = CircleShape)
-                                .padding(30.dp),
-                            imageVector = Icons.Default.Edit,
-                            tint = Color.White,
-                            contentDescription = null
-                        )
-                        Text(
-                            modifier = Modifier.padding(bottom = 16.dp),
-                            text = "کاربر گرامی، جهت استفاده از خدمات امضای دیجیتال لطفا اطلاعات زیر را تکمیل کنید.",
-                            color = Color(0xFFCCCACF),
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Normal,
-                            fontFamily = byekanFamily
-                        )
-                        Column(
-                            modifier = Modifier.fillMaxSize(),
-                            verticalArrangement = Arrangement.SpaceBetween
-                        ) {
-                            Column(
-                                verticalArrangement = Arrangement.spacedBy(16.dp)
-                            ) {
-                                TextField(
-                                    value = phone,
-                                    onValueChange = {
-                                        if (it.length != 12) {
-                                            phone = it
-                                        }
-                                    },
-                                    modifier = Modifier.fillMaxWidth().requiredHeightIn(54.dp),
-                                    placeholder = {
-                                        Text(
-                                            text = "شماره موبایل",
-                                            color = Color(0xFFCCCACF),
-                                            fontSize = 16.sp,
-                                            fontWeight = FontWeight.Normal,
-                                            fontFamily = byekanFamily
-                                        )
-                                    },
-                                    keyboardOptions = KeyboardOptions(
-                                        keyboardType = KeyboardType.Phone
-                                    ),
-                                    maxLines = 1,
-                                    shape = RoundedCornerShape(16.dp),
-                                    colors = TextFieldDefaults.textFieldColors(
-                                        textColor = Color.White,
-                                        backgroundColor = Color(0xFF19273B),
-                                        cursorColor = Color(0xFF50CD89),
-                                        focusedLabelColor = Color.Transparent,
-                                        focusedIndicatorColor = Color.Transparent,
-                                        errorIndicatorColor = Color.Transparent,
-                                        unfocusedIndicatorColor = Color.Transparent,
-                                        disabledIndicatorColor = Color.Transparent
-                                    ),
-                                )
-                                TextField(
-                                    value = natonal,
-                                    onValueChange = {
-                                        if (it.length != 12) {
-                                            natonal = it
-                                        }
-                                    },
-                                    modifier = Modifier.fillMaxWidth().requiredHeightIn(54.dp),
-                                    placeholder = {
-                                        Text(
-                                            text = "کد ملی",
-                                            color = Color(0xFFCCCACF),
-                                            fontSize = 16.sp,
-                                            fontWeight = FontWeight.Normal,
-                                            fontFamily = byekanFamily
-                                        )
-                                    },
-                                    keyboardOptions = KeyboardOptions(
-                                        keyboardType = KeyboardType.Phone
-                                    ),
-                                    maxLines = 1,
-                                    shape = RoundedCornerShape(16.dp),
-                                    colors = TextFieldDefaults.textFieldColors(
-                                        textColor = Color.White,
-                                        backgroundColor = Color(0xFF19273B),
-                                        cursorColor = Color(0xFF50CD89),
-                                        focusedLabelColor = Color.Transparent,
-                                        focusedIndicatorColor = Color.Transparent,
-                                        errorIndicatorColor = Color.Transparent,
-                                        unfocusedIndicatorColor = Color.Transparent,
-                                        disabledIndicatorColor = Color.Transparent
-                                    ),
-                                )
+                    Screen(byekanFamily = byekanFamily, sheetState = sheetState)
+                }
+            }
+        }
+    }
+
+    @Composable
+    private fun Screen(
+        byekanFamily: FontFamily,
+        sheetState: ModalBottomSheetState
+    ) {
+        var phone by remember { mutableStateOf("") }
+        var natonal by remember { mutableStateOf("") }
+        val coroutineScope = rememberCoroutineScope()
+
+        Column(
+            modifier = Modifier
+                .fillMaxSize(
+                    if (currentWindowAdaptiveInfo()
+                            .windowSizeClass
+                            .windowWidthSizeClass == WindowWidthSizeClass.COMPACT
+                    ) .5f else 1f
+                )
+                .padding(16.dp)
+        ) {
+            Icon(
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .padding(48.dp)
+                    .border(width = 1.dp, color = Color(0xFF21354F), shape = CircleShape)
+                    .size(128.dp)
+                    .background(color = Color(0xFF19273B), shape = CircleShape)
+                    .padding(30.dp),
+                imageVector = Icons.Default.Edit,
+                tint = Color.White,
+                contentDescription = null
+            )
+            Text(
+                modifier = Modifier.padding(bottom = 16.dp),
+                text = "کاربر گرامی، جهت استفاده از خدمات امضای دیجیتال لطفا اطلاعات زیر را تکمیل کنید.",
+                color = Color(0xFFCCCACF),
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Normal,
+                fontFamily = byekanFamily
+            )
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.SpaceBetween
+            ) {
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
+                    TextField(
+                        value = phone,
+                        onValueChange = {
+                            if (it.length != 12) {
+                                phone = it
                             }
-                            Button(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(vertical = 16.dp)
-                                    .requiredHeightIn(min = 54.dp),
-                                onClick = {
-                                    coroutineScope.launch {
-                                        sheetState.show()
-                                    }
-                                },
-                                colors = ButtonDefaults.buttonColors(
-                                    backgroundColor = Color(0XFF40BED0),
-                                    contentColor = Color.White
-                                ),
-                                shape = RoundedCornerShape(16.dp)
-                            ) {
-                                Text(
-                                    text = "تایید و ادامه",
-                                    color = Color.White,
-                                    fontSize = 16.sp,
-                                    fontWeight = FontWeight.Bold,
-                                    fontFamily = byekanFamily
-                                )
+                        },
+                        modifier = Modifier.fillMaxWidth().requiredHeightIn(54.dp),
+                        placeholder = {
+                            Text(
+                                text = "شماره موبایل",
+                                color = Color(0xFFCCCACF),
+                                fontSize = 16.sp,
+                                fontWeight = FontWeight.Normal,
+                                fontFamily = byekanFamily
+                            )
+                        },
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Phone
+                        ),
+                        maxLines = 1,
+                        shape = RoundedCornerShape(16.dp),
+                        colors = TextFieldDefaults.textFieldColors(
+                            textColor = Color.White,
+                            backgroundColor = Color(0xFF19273B),
+                            cursorColor = Color(0xFF50CD89),
+                            focusedLabelColor = Color.Transparent,
+                            focusedIndicatorColor = Color.Transparent,
+                            errorIndicatorColor = Color.Transparent,
+                            unfocusedIndicatorColor = Color.Transparent,
+                            disabledIndicatorColor = Color.Transparent
+                        ),
+                    )
+                    TextField(
+                        value = natonal,
+                        onValueChange = {
+                            if (it.length != 12) {
+                                natonal = it
                             }
+                        },
+                        modifier = Modifier.fillMaxWidth().requiredHeightIn(54.dp),
+                        placeholder = {
+                            Text(
+                                text = "کد ملی",
+                                color = Color(0xFFCCCACF),
+                                fontSize = 16.sp,
+                                fontWeight = FontWeight.Normal,
+                                fontFamily = byekanFamily
+                            )
+                        },
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Phone
+                        ),
+                        maxLines = 1,
+                        shape = RoundedCornerShape(16.dp),
+                        colors = TextFieldDefaults.textFieldColors(
+                            textColor = Color.White,
+                            backgroundColor = Color(0xFF19273B),
+                            cursorColor = Color(0xFF50CD89),
+                            focusedLabelColor = Color.Transparent,
+                            focusedIndicatorColor = Color.Transparent,
+                            errorIndicatorColor = Color.Transparent,
+                            unfocusedIndicatorColor = Color.Transparent,
+                            disabledIndicatorColor = Color.Transparent
+                        ),
+                    )
+                }
+                Button(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 16.dp)
+                        .requiredHeightIn(min = 54.dp),
+                    onClick = {
+                        coroutineScope.launch {
+                            sheetState.show()
                         }
-                    }
+                    },
+                    colors = ButtonDefaults.buttonColors(
+                        backgroundColor = Color(0XFF40BED0),
+                        contentColor = Color.White
+                    ),
+                    shape = RoundedCornerShape(16.dp)
+                ) {
+                    Text(
+                        text = "تایید و ادامه",
+                        color = Color.White,
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Bold,
+                        fontFamily = byekanFamily
+                    )
                 }
             }
         }

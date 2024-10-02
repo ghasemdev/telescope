@@ -1,21 +1,22 @@
 [versions]
+adaptive = "1.0.0-rc01"
 agp = "8.5.2"
 android-compileSdk = "35"
 android-minSdk = "24"
 android-targetSdk = "34"
-androidx-activityCompose = "1.9.1"
+androidx-activityCompose = "1.9.2"
 androidx-appcompat = "1.7.0"
 androidx-core-ktx = "1.13.1"
 androidx-espresso-core = "3.6.1"
 androidx-test-junit = "1.2.1"
 annotation = "1.8.2"
 buildkonfig = "0.15.1"
-compose-plugin = "1.7.0-alpha03"
+compose-plugin = "1.7.0-rc01"
 detekt = "1.23.6"
 dokka = "1.9.20"
 junit = "4.13.2"
 koin = "4.0.0-RC1"
-kotlin = "2.0.20"
+kotlin = "2.0.21-RC"
 kotlinx-atomicfu = "0.25.0"
 kotlinx-collections-immutable = "0.3.7"
 kotlinx-coroutines = "1.9.0-RC.2"
@@ -24,10 +25,10 @@ kotlinx-io = "0.5.3"
 kotlinx-serialization = "1.7.1"
 ktor = "3.0.0-beta-2"
 leakcanary = "2.14"
-lifecycle = "2.8.0"
+lifecycle = "2.8.2"
 napier = "2.7.1"
-navigation-kmp = "2.8.0-alpha09"
-navigation-compose = "2.8.0-rc01"
+navigation-kmp = "2.8.0-alpha10"
+navigation-compose = "2.8.1"
 okhttp = "4.12.0"
 slf4jNop = "2.0.15"
 sqldelight = "2.0.2"
@@ -35,6 +36,9 @@ startup = "1.1.1"
 voyagerNavigatorVersion = "1.1.0-beta02"
 
 [libraries]
+adaptive = { module = "org.jetbrains.compose.material3.adaptive:adaptive", version.ref = "adaptive" }
+adaptive-layout = { module = "org.jetbrains.compose.material3.adaptive:adaptive-layout", version.ref = "adaptive" }
+adaptive-navigation = { module = "org.jetbrains.compose.material3.adaptive:adaptive-navigation", version.ref = "adaptive" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
 androidx-annotation = { module = "androidx.annotation:annotation", version.ref = "annotation" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "androidx-appcompat" }
