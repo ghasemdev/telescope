@@ -25,8 +25,7 @@ import androidx.window.core.layout.WindowWidthSizeClass
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
-import com.parsuomash.telescope.navigation.ObserveToPopup
-import com.parsuomash.telescope.navigation.safeRemoveRoute
+import com.parsuomash.navigation.safeRemoveRoute
 import com.parsuomash.telescope.theme.LocalFontFamily
 
 class IssueCertificate : Screen {
@@ -34,8 +33,6 @@ class IssueCertificate : Screen {
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
         val byekanFamily = LocalFontFamily.current
-
-        ObserveToPopup()
 
         Surface(
             modifier = Modifier

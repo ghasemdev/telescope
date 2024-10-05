@@ -10,7 +10,6 @@ plugins {
     alias(libs.plugins.jetbrains.compose)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.kotlin.serialization)
-//    alias(libs.plugins.sqldelight)
     id("com.codingfeline.buildkonfig")
 }
 
@@ -66,7 +65,6 @@ kotlin {
         iosTarget.binaries.framework {
             baseName = "ComposeApp"
             isStatic = true
-            linkerOpts.add("-lsqlite3")
         }
     }
 
@@ -91,7 +89,6 @@ kotlin {
             implementation(libs.adaptive.layout)
             implementation(libs.adaptive.navigation)
             implementation(libs.napier)
-//            implementation(libs.sqldelight.coroutines)
             implementation(libs.voyager.navigator)
             implementation(libs.voyager.screenmodel)
             implementation(libs.voyager.transitions)
@@ -105,13 +102,11 @@ kotlin {
             implementation(libs.androidx.navigation.compose)
             implementation(libs.androidx.annotation)
             implementation(libs.slf4j.nop)
-//            implementation(libs.sqldelight.android.driver)
             implementation(libs.androidx.startup.runtime)
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
             implementation(libs.androidx.annotation)
-//            implementation(libs.sqldelight.native.driver)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
@@ -119,33 +114,18 @@ kotlin {
             implementation(libs.androidx.annotation)
             implementation(libs.kotlinx.coroutines.swing)
             implementation(libs.slf4j.nop)
-//            implementation(libs.sqldelight.sqlite.driver)
         }
-//        jsMain.dependencies {
-//            implementation(libs.ktor.client.js)
-//            implementation(npm("@js-joda/timezone", "2.3.0"))
-//
-//            implementation(libs.sqldelight.web.driver)
-//            implementation(npm("sql.js", "1.10.3"))
-//            implementation(npm("@cashapp/sqldelight-sqljs-worker", libs.versions.sqldelight.get()))
-//            implementation(devNpm("copy-webpack-plugin", "9.1.0"))
-//        }
+        jsMain.dependencies {
+            implementation(projects.navigation)
+            implementation(libs.ktor.client.js)
+            implementation(npm("@js-joda/timezone", "2.3.0"))
+        }
         wasmJsMain.dependencies {
             implementation(libs.ktor.client.js)
             implementation(npm("@js-joda/timezone", "2.3.0"))
-            implementation(npm("routes-js-module", "1.1.0"))
         }
     }
 }
-
-//sqldelight {
-//    databases {
-//        create("TelescopeDB") {
-//            packageName.set("com.parsuomash.telescope")
-//            generateAsync.set(true)
-//        }
-//    }
-//}
 
 android {
     namespace = "com.parsuomash.telescope"

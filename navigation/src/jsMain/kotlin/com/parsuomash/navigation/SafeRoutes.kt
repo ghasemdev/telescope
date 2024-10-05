@@ -1,6 +1,6 @@
-package com.parsuomash.telescope.navigation
+package com.parsuomash.navigation
 
-import com.parsuomash.telescope.core.tryIgnore
+import com.parsuomash.navigation.core.tryIgnore
 
 fun safeAddRoute(route: String) {
     tryIgnore { addRoute(route) }

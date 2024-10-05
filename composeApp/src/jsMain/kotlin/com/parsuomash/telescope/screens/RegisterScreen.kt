@@ -48,9 +48,9 @@ import androidx.window.core.layout.WindowWidthSizeClass
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
-import com.parsuomash.telescope.core.tryIgnore
-import com.parsuomash.telescope.core.tryOrEmpty
-import com.parsuomash.telescope.navigation.safeAddRoute
+import com.parsuomash.navigation.core.tryIgnore
+import com.parsuomash.navigation.core.tryOrEmpty
+import com.parsuomash.navigation.safeAddRoute
 import com.parsuomash.telescope.theme.LocalFontFamily
 import kotlinx.coroutines.launch
 

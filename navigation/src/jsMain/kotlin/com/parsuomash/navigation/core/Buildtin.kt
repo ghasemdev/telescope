@@ -1,4 +1,4 @@
-package com.parsuomash.telescope.core
+package com.parsuomash.navigation.core
 
 inline fun tryIgnore(block: () -> Unit) {
     try {
