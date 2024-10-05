@@ -107,14 +107,8 @@ class MainActivity : ActivityScope() {
                 addJavascriptInterface(
                     JavaScriptInterface(
                         nationalCode = "0925277800",
-                        addRouteCallback = { route ->
-                            webViewRoutes.add(route)
-                            Toast.makeText(context, webViewRoutes.joinToString(), Toast.LENGTH_SHORT).show()
-                        },
-                        removeRouteCallback = { route ->
-                            webViewRoutes.remove(route)
-                            Toast.makeText(context, webViewRoutes.joinToString(), Toast.LENGTH_SHORT).show()
-                        },
+                        addRouteCallback = { webViewRoutes.add(it) },
+                        removeRouteCallback = { webViewRoutes.remove(it) },
                         finishActivityCallback = { finish() }
                     ), "JSInterface"
                 )
@@ -122,7 +116,10 @@ class MainActivity : ActivityScope() {
         }
 
         // Navigate only there is no screen in web
-        BackHandler(webViewRoutes.size != 0) { }
+        BackHandler(webViewRoutes.size != 0) {
+            webView.evaluateJavascript("javascript:popupSignal()") {
+            }
+        }
 
         DisposableEffect(Unit) {
             onDispose {
