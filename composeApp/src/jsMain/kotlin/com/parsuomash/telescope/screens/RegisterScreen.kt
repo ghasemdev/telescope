@@ -48,10 +48,23 @@ import androidx.window.core.layout.WindowWidthSizeClass
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
+import com.parsuomash.telescope.core.tryIgnore
+import com.parsuomash.telescope.core.tryOrEmpty
+import com.parsuomash.telescope.navigation.safeAddRoute
 import com.parsuomash.telescope.theme.LocalFontFamily
 import kotlinx.coroutines.launch
 
 class RegisterScreen : Screen {
+    private fun getNationalCode(): String = tryOrEmpty {
+        js("JSInterface.getNationalCode();").unsafeCast<String>()
+    }
+
+    private fun finishActivity() {
+        tryIgnore {
+            js("JSInterface.finishActivity();") as Unit
+        }
+    }
+
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
@@ -91,6 +104,7 @@ class RegisterScreen : Screen {
                             onClick = {
                                 coroutineScope.launch {
                                     sheetState.hide()
+                                    safeAddRoute(route = "DashboardScreen")
                                     navigator.push(DashboardScreen())
                                 }
                             },
@@ -131,7 +145,9 @@ class RegisterScreen : Screen {
                         )
                         IconButton(
                             modifier = Modifier.align(Alignment.CenterStart),
-                            onClick = {}
+                            onClick = {
+                                finishActivity()
+                            }
                         ) {
                             Icon(
                                 imageVector = Icons.AutoMirrored.Filled.ArrowBack,
@@ -143,14 +159,6 @@ class RegisterScreen : Screen {
                     Screen(byekanFamily = byekanFamily, sheetState = sheetState)
                 }
             }
-        }
-    }
-
-    private fun getNationalCode(): String {
-        return try {
-            js("JSInterface.getNationalCode();").unsafeCast<String>()
-        } catch (e: Throwable) {
-            ""
         }
     }
 

@@ -30,23 +30,15 @@ import androidx.window.core.layout.WindowWidthSizeClass
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
+import com.parsuomash.telescope.navigation.safeAddRoute
+import com.parsuomash.telescope.navigation.safeRemoveRoute
 import com.parsuomash.telescope.theme.LocalFontFamily
-import kotlinx.browser.window
-
-private fun toast() {
-    try {
-        js("JSInterface.toast('Back in Dashboard');")
-    } catch (_: Throwable) {
-    }
-}
 
 class DashboardScreen : Screen {
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
         val byekanFamily = LocalFontFamily.current
-
-        window.addEventListener("beforeunload", { toast() })
 
         Surface(
             modifier = Modifier
@@ -70,6 +62,7 @@ class DashboardScreen : Screen {
                     IconButton(
                         modifier = Modifier.align(Alignment.CenterStart),
                         onClick = {
+                            safeRemoveRoute(route = "DashboardScreen")
                             navigator.pop()
                         }
                     ) {
@@ -103,6 +96,7 @@ class DashboardScreen : Screen {
                                 .background(color = Color(0xFF19273B), shape = RoundedCornerShape(16.dp))
                                 .clip(RoundedCornerShape(16.dp))
                                 .clickable {
+                                    safeAddRoute(route = "IssueCertificate")
                                     navigator.push(IssueCertificate())
                                 }
                                 .clip(RoundedCornerShape(16.dp))

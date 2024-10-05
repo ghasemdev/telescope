@@ -3,14 +3,26 @@ package com.parsuomash.telescope.bridge
 import android.webkit.JavascriptInterface
 
 class JavaScriptInterface(
-    private val toastCallback: (message: String) -> Unit,
+    private val addRouteCallback: (route: String) -> Unit,
+    private val removeRouteCallback: (route: String) -> Unit,
+    private val finishActivityCallback: () -> Unit,
     private val nationalCode: String,
 ) {
     @JavascriptInterface
-    fun toast(message: String) {
-        toastCallback(message)
+    fun getNationalCode(): String = nationalCode
+
+    @JavascriptInterface
+    fun addRoute(route: String) {
+        addRouteCallback(route)
     }
 
     @JavascriptInterface
-    fun getNationalCode(): String = nationalCode
+    fun removeRoute(route: String) {
+        removeRouteCallback(route)
+    }
+
+    @JavascriptInterface
+    fun finishActivity() {
+        finishActivityCallback()
+    }
 }

@@ -133,6 +133,7 @@ kotlin {
         wasmJsMain.dependencies {
             implementation(libs.ktor.client.js)
             implementation(npm("@js-joda/timezone", "2.3.0"))
+            implementation(npm("routes-js-module", "1.1.0"))
         }
     }
 }

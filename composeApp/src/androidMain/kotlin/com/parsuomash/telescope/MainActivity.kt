@@ -21,6 +21,7 @@ import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -72,6 +73,7 @@ class MainActivity : ActivityScope() {
     fun WebViewScreen(url: String) {
         val context = LocalContext.current
         var isLoading: Boolean by remember { mutableStateOf(false) }
+        val webViewRoutes = remember { mutableStateListOf<String>() }
         val webView = remember {
             WebView(context).apply {
                 webViewClient = object : WebViewClient() {
@@ -104,17 +106,23 @@ class MainActivity : ActivityScope() {
                 // Add a JavaScript interface to allow communication between JavaScript and Kotlin
                 addJavascriptInterface(
                     JavaScriptInterface(
-                        toastCallback = {
-                            Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+                        nationalCode = "0925277800",
+                        addRouteCallback = { route ->
+                            webViewRoutes.add(route)
+                            Toast.makeText(context, webViewRoutes.joinToString(), Toast.LENGTH_SHORT).show()
                         },
-                        nationalCode = "0925277800"
+                        removeRouteCallback = { route ->
+                            webViewRoutes.remove(route)
+                            Toast.makeText(context, webViewRoutes.joinToString(), Toast.LENGTH_SHORT).show()
+                        },
+                        finishActivityCallback = { finish() }
                     ), "JSInterface"
                 )
-
             }
         }
 
-        BackHandler { }
+        // Navigate only there is no screen in web
+        BackHandler(webViewRoutes.size != 0) { }
 
         DisposableEffect(Unit) {
             onDispose {
