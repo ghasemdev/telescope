@@ -4,10 +4,10 @@ plugins {
 
 kotlin {
     js(IR) {
+        moduleName = "navigation"
         browser {
             commonWebpackConfig {
-                outputFileName = "navigation.js"
-//                sourceMaps = false
+                sourceMaps = false
             }
         }
         binaries.executable()
