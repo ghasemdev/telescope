@@ -20,7 +20,6 @@ import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -74,7 +73,7 @@ class MainActivity : ActivityScope() {
     fun WebViewScreen(url: String) {
         val context = LocalContext.current
         var isLoading: Boolean by remember { mutableStateOf(false) }
-        val webViewRoutes = remember { mutableStateListOf("root") }
+        val webViewRoutes = remember { mutableStateListOf<String>() }
         val webView = remember {
             WebView(context).apply {
                 webViewClient = object : WebViewClient() {
@@ -116,12 +115,8 @@ class MainActivity : ActivityScope() {
             }
         }
 
-        LaunchedEffect(webViewRoutes.size) {
-            Toast.makeText(this@MainActivity, webViewRoutes.size.toString(), Toast.LENGTH_SHORT).show()
-        }
-
         // Navigate only there is no screen in web
-        BackHandler(webViewRoutes.size > 1) {
+        BackHandler(webViewRoutes.size > 0) {
             webView.evaluateJavascript(
                 "javascript:composeApp.com.parsuomash.telescope.navigation.popWebViewRoute()"
             ) {}

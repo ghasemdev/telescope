@@ -15,9 +15,9 @@ fun ObservePopRoute() {
     val navigation = LocalNavigator.current
     LaunchedEffect(routesCount) {
         if (routesCount > 0) {
-            routesCount--
-            popRoute()
             navigation?.pop()
+            popRoute()
+            routesCount--
         }
     }
 }
