@@ -2180,6 +2180,11 @@ routes-js-module@1.1.0:
   resolved "https://registry.yarnpkg.com/routes-js-module/-/routes-js-module-1.1.0.tgz#0529308a53141eb6f182efd7356aed9c60f68391"
   integrity sha512-Sf7mfbIYrmRfSxgCdEjPUrsQwhzenpZtvTYNxfDO+hVNyivBH8V/6/xIPdYDbHp/W2gv8RKfAsJkmM6Q5ZRXFw==
 
+routes-js-module@1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/routes-js-module/-/routes-js-module-1.2.0.tgz#3ec19177ac8fbbdd72ccb5fa0db4de199682f2f3"
+  integrity sha512-SDTMkQITS13UcMchezjSP9WSYJ9NoqCmaLW5Ot9wIZtC3BvqnCFeejPx4DoKM1e+1SEFTfe4um0BvGGccCT9/Q==
+
 safe-buffer@5.1.2, safe-buffer@~5.1.0, safe-buffer@~5.1.1:
   version "5.1.2"
   resolved "https://registry.yarnpkg.com/safe-buffer/-/safe-buffer-5.1.2.tgz#991ec69d296e0313747d59bdfd2b745c35f8828d"

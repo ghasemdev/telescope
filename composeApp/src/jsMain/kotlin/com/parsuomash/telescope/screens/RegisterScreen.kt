@@ -50,7 +50,7 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.parsuomash.navigation.core.tryIgnore
 import com.parsuomash.navigation.core.tryOrEmpty
-import com.parsuomash.navigation.safeAddRoute
+import com.parsuomash.navigation.pushRoute
 import com.parsuomash.telescope.theme.LocalFontFamily
 import kotlinx.coroutines.launch
 
@@ -104,7 +104,7 @@ class RegisterScreen : Screen {
                             onClick = {
                                 coroutineScope.launch {
                                     sheetState.hide()
-                                    safeAddRoute(route = "DashboardScreen")
+                                    pushRoute(route = "DashboardScreen")
                                     navigator.push(DashboardScreen())
                                 }
                             },

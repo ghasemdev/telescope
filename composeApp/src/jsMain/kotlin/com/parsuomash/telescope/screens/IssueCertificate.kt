@@ -25,7 +25,8 @@ import androidx.window.core.layout.WindowWidthSizeClass
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
-import com.parsuomash.navigation.safeRemoveRoute
+import com.parsuomash.navigation.popRoute
+import com.parsuomash.telescope.navigation.ObservePopRoute
 import com.parsuomash.telescope.theme.LocalFontFamily
 
 class IssueCertificate : Screen {
@@ -33,6 +34,8 @@ class IssueCertificate : Screen {
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
         val byekanFamily = LocalFontFamily.current
+
+        ObservePopRoute()
 
         Surface(
             modifier = Modifier
@@ -56,7 +59,7 @@ class IssueCertificate : Screen {
                     IconButton(
                         modifier = Modifier.align(Alignment.CenterStart),
                         onClick = {
-                            safeRemoveRoute(route = "IssueCertificate")
+                            popRoute()
                             navigator.pop()
                         }
                     ) {

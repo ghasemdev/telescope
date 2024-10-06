@@ -20,6 +20,7 @@ import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -73,7 +74,7 @@ class MainActivity : ActivityScope() {
     fun WebViewScreen(url: String) {
         val context = LocalContext.current
         var isLoading: Boolean by remember { mutableStateOf(false) }
-        val webViewRoutes = remember { mutableStateListOf<String>() }
+        val webViewRoutes = remember { mutableStateListOf("root") }
         val webView = remember {
             WebView(context).apply {
                 webViewClient = object : WebViewClient() {
@@ -107,18 +108,23 @@ class MainActivity : ActivityScope() {
                 addJavascriptInterface(
                     JavaScriptInterface(
                         nationalCode = "0925277800",
-                        addRouteCallback = { webViewRoutes.add(it) },
-                        removeRouteCallback = { webViewRoutes.remove(it) },
+                        pushRouteCallback = { webViewRoutes.add(it) },
+                        popRouteCallback = { webViewRoutes.removeAt(webViewRoutes.size - 1) },
                         finishActivityCallback = { finish() }
                     ), "JSInterface"
                 )
             }
         }
 
+        LaunchedEffect(webViewRoutes.size) {
+            Toast.makeText(this@MainActivity, webViewRoutes.size.toString(), Toast.LENGTH_SHORT).show()
+        }
+
         // Navigate only there is no screen in web
-        BackHandler(webViewRoutes.size != 0) {
-            webView.evaluateJavascript("javascript:popupSignal()") {
-            }
+        BackHandler(webViewRoutes.size > 1) {
+            webView.evaluateJavascript(
+                "javascript:composeApp.com.parsuomash.telescope.navigation.popWebViewRoute()"
+            ) {}
         }
 
         DisposableEffect(Unit) {

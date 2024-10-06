@@ -1,12 +1,12 @@
-function addRoute(route) {
-    JSInterface.addRoute(route);
+function pushRouteJS(route) {
+    JSInterface.pushRoute(route);
 }
 
-function removeRoute(route) {
-    JSInterface.removeRoute(route);
+function popRouteJS() {
+    JSInterface.popRoute();
 }
 
 module.exports = {
-    addRoute,
-    removeRoute,
+    pushRouteJS,
+    popRouteJS,
 };

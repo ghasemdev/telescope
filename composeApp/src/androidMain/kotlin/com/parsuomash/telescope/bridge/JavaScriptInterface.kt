@@ -3,8 +3,8 @@ package com.parsuomash.telescope.bridge
 import android.webkit.JavascriptInterface
 
 class JavaScriptInterface(
-    private val addRouteCallback: (route: String) -> Unit,
-    private val removeRouteCallback: (route: String) -> Unit,
+    private val pushRouteCallback: (route: String) -> Unit,
+    private val popRouteCallback: () -> Unit,
     private val finishActivityCallback: () -> Unit,
     private val nationalCode: String,
 ) {
@@ -12,13 +12,13 @@ class JavaScriptInterface(
     fun getNationalCode(): String = nationalCode
 
     @JavascriptInterface
-    fun addRoute(route: String) {
-        addRouteCallback(route)
+    fun pushRoute(route: String) {
+        pushRouteCallback(route)
     }
 
     @JavascriptInterface
-    fun removeRoute(route: String) {
-        removeRouteCallback(route)
+    fun popRoute() {
+        popRouteCallback()
     }
 
     @JavascriptInterface

@@ -4,7 +4,7 @@ plugins {
 
 kotlin {
     js(IR) {
-        moduleName = "navigation"
+        moduleName = "compose-navigation"
         browser {
             commonWebpackConfig {
                 sourceMaps = false
@@ -15,7 +15,7 @@ kotlin {
 
     sourceSets {
         jsMain.dependencies {
-            implementation(npm("routes-js-module", "1.1.0"))
+            implementation(npm("routes-js-module", "1.2.0"))
         }
     }
 }
