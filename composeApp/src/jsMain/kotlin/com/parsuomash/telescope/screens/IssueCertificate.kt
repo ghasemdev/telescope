@@ -25,7 +25,7 @@ import androidx.window.core.layout.WindowWidthSizeClass
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
-import com.parsuomash.navigation.popRoute
+import com.parsuomash.navigation.popRouteJS
 import com.parsuomash.telescope.navigation.ObservePopRoute
 import com.parsuomash.telescope.theme.LocalFontFamily
 
@@ -59,7 +59,7 @@ class IssueCertificate : Screen {
                     IconButton(
                         modifier = Modifier.align(Alignment.CenterStart),
                         onClick = {
-                            popRoute()
+                            popRouteJS()
                             navigator.pop()
                         }
                     ) {

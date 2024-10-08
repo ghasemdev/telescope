@@ -15,7 +15,7 @@ kotlin {
 
     sourceSets {
         jsMain.dependencies {
-            implementation(npm("routes-js-module", "1.2.0"))
+            implementation(npm("routes-js-module", "1.3.0"))
         }
     }
 }

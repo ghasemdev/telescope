@@ -48,21 +48,16 @@ import androidx.window.core.layout.WindowWidthSizeClass
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
-import com.parsuomash.navigation.core.tryIgnore
 import com.parsuomash.navigation.core.tryOrEmpty
-import com.parsuomash.navigation.pushRoute
+import com.parsuomash.navigation.popRouteAndroid
+import com.parsuomash.navigation.pushRouteJS
+import com.parsuomash.telescope.navigation.ObserveIsBottomSheetClosed
 import com.parsuomash.telescope.theme.LocalFontFamily
 import kotlinx.coroutines.launch
 
 class RegisterScreen : Screen {
     private fun getNationalCode(): String = tryOrEmpty {
         js("JSInterface.getNationalCode();").unsafeCast<String>()
-    }
-
-    private fun finishActivity() {
-        tryIgnore {
-            js("JSInterface.finishActivity();") as Unit
-        }
     }
 
     @Composable
@@ -72,6 +67,8 @@ class RegisterScreen : Screen {
 
         val coroutineScope = rememberCoroutineScope()
         val sheetState = rememberModalBottomSheetState(Hidden)
+
+        ObserveIsBottomSheetClosed(sheetState)
 
         Surface(
             modifier = Modifier
@@ -104,7 +101,7 @@ class RegisterScreen : Screen {
                             onClick = {
                                 coroutineScope.launch {
                                     sheetState.hide()
-                                    pushRoute(route = "DashboardScreen")
+                                    pushRouteJS(route = "DashboardScreen")
                                     navigator.push(DashboardScreen())
                                 }
                             },
@@ -146,7 +143,7 @@ class RegisterScreen : Screen {
                         IconButton(
                             modifier = Modifier.align(Alignment.CenterStart),
                             onClick = {
-                                finishActivity()
+                                popRouteAndroid()
                             }
                         ) {
                             Icon(

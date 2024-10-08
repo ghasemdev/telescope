@@ -73,6 +73,7 @@ class MainActivity : ActivityScope() {
     fun WebViewScreen(url: String) {
         val context = LocalContext.current
         var isLoading: Boolean by remember { mutableStateOf(false) }
+        var isWebViewBottomSheetOpen: Boolean by remember { mutableStateOf(false) }
         val webViewRoutes = remember { mutableStateListOf<String>() }
         val webView = remember {
             WebView(context).apply {
@@ -107,9 +108,13 @@ class MainActivity : ActivityScope() {
                 addJavascriptInterface(
                     JavaScriptInterface(
                         nationalCode = "0925277800",
-                        pushRouteCallback = { webViewRoutes.add(it) },
-                        popRouteCallback = { webViewRoutes.removeAt(webViewRoutes.size - 1) },
-                        finishActivityCallback = { finish() }
+                        finishActivityCallback = { finish() },
+                        pushRouteJSCallback = { webViewRoutes.add(it) },
+                        popRouteJSCallback = { webViewRoutes.removeAt(webViewRoutes.size - 1) },
+                        pushRouteAndroidCallback = {},
+                        popRouteAndroidCallback = { finish() },
+                        hideBottomSheetCallback = { isWebViewBottomSheetOpen = false },
+                        showBottomSheetCallback = { isWebViewBottomSheetOpen = true },
                     ), "JSInterface"
                 )
             }
@@ -119,6 +124,12 @@ class MainActivity : ActivityScope() {
         BackHandler(webViewRoutes.size > 0) {
             webView.evaluateJavascript(
                 "javascript:composeApp.com.parsuomash.telescope.navigation.popWebViewRoute()"
+            ) {}
+        }
+
+        BackHandler(isWebViewBottomSheetOpen) {
+            webView.evaluateJavascript(
+                "javascript:composeApp.com.parsuomash.telescope.navigation.closeWebViewBottomSheet()"
             ) {}
         }
 

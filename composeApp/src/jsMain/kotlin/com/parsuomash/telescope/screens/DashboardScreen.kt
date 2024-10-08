@@ -30,8 +30,8 @@ import androidx.window.core.layout.WindowWidthSizeClass
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
-import com.parsuomash.navigation.pushRoute
-import com.parsuomash.navigation.popRoute
+import com.parsuomash.navigation.popRouteJS
+import com.parsuomash.navigation.pushRouteJS
 import com.parsuomash.telescope.navigation.ObservePopRoute
 import com.parsuomash.telescope.theme.LocalFontFamily
 
@@ -65,7 +65,7 @@ class DashboardScreen : Screen {
                     IconButton(
                         modifier = Modifier.align(Alignment.CenterStart),
                         onClick = {
-                            popRoute()
+                            popRouteJS()
                             navigator.pop()
                         }
                     ) {
@@ -99,7 +99,7 @@ class DashboardScreen : Screen {
                                 .background(color = Color(0xFF19273B), shape = RoundedCornerShape(16.dp))
                                 .clip(RoundedCornerShape(16.dp))
                                 .clickable {
-                                    pushRoute(route = "IssueCertificate")
+                                    pushRouteJS(route = "IssueCertificate")
                                     navigator.push(IssueCertificate())
                                 }
                                 .clip(RoundedCornerShape(16.dp))
