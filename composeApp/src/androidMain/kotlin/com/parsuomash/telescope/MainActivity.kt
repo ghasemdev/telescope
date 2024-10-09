@@ -121,12 +121,11 @@ class MainActivity : ActivityScope() {
         }
 
         // Navigate only there is no screen in web
-        BackHandler(webViewRoutes.size > 0) {
+        BackHandler(webViewRoutes.size > 0 && !isWebViewBottomSheetOpen) {
             webView.evaluateJavascript(
                 "javascript:composeApp.com.parsuomash.telescope.navigation.popWebViewRoute()"
             ) {}
         }
-
         BackHandler(isWebViewBottomSheetOpen) {
             webView.evaluateJavascript(
                 "javascript:composeApp.com.parsuomash.telescope.navigation.closeWebViewBottomSheet()"

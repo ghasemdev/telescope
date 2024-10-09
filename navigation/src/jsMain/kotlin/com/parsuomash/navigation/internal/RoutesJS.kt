@@ -3,9 +3,9 @@
 
 package com.parsuomash.navigation.internal
 
-external fun pushRouteJS(route: String)
-external fun popRouteJS()
-external fun pushRouteAndroid(route: String)
-external fun popRouteAndroid()
-external fun hideBottomSheet()
-external fun showBottomSheet()
+external fun internalPushRouteJS(route: String)
+external fun internalPopRouteJS()
+external fun internalPushRouteAndroid(route: String)
+external fun internalPopRouteAndroid()
+external fun internalHideBottomSheet()
+external fun internalShowBottomSheet()

@@ -1,32 +1,32 @@
-function pushRouteJS(route) {
+function internalPushRouteJS(route) {
     JSInterface.pushRouteJS(route);
 }
 
-function popRouteJS() {
+function internalPopRouteJS() {
     JSInterface.popRouteJS();
 }
 
-function pushRouteAndroid(route) {
+function internalPushRouteAndroid(route) {
     JSInterface.pushRouteAndroid(route);
 }
 
-function popRouteAndroid() {
+function internalPopRouteAndroid() {
     JSInterface.popRouteAndroid();
 }
 
-function hideBottomSheet() {
+function internalHideBottomSheet() {
     JSInterface.hideBottomSheet();
 }
 
-function showBottomSheet() {
+function internalShowBottomSheet() {
     JSInterface.showBottomSheet();
 }
 
 module.exports = {
-    pushRouteJS,
-    popRouteJS,
-    pushRouteAndroid,
-    popRouteAndroid,
-    hideBottomSheet,
-    showBottomSheet,
+    internalPushRouteJS,
+    internalPopRouteJS,
+    internalPushRouteAndroid,
+    internalPopRouteAndroid,
+    internalHideBottomSheet,
+    internalShowBottomSheet,
 };

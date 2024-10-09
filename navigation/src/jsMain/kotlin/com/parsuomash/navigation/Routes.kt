@@ -1,27 +1,33 @@
 package com.parsuomash.navigation
 
 import com.parsuomash.navigation.core.tryIgnore
+import com.parsuomash.navigation.internal.internalHideBottomSheet
+import com.parsuomash.navigation.internal.internalPopRouteAndroid
+import com.parsuomash.navigation.internal.internalPopRouteJS
+import com.parsuomash.navigation.internal.internalPushRouteAndroid
+import com.parsuomash.navigation.internal.internalPushRouteJS
+import com.parsuomash.navigation.internal.internalShowBottomSheet
 
 fun pushRouteJS(route: String) {
-    tryIgnore { com.parsuomash.navigation.internal.pushRouteJS(route) }
+    tryIgnore { internalPushRouteJS(route) }
 }
 
 fun popRouteJS() {
-    tryIgnore { com.parsuomash.navigation.internal.popRouteJS() }
+    tryIgnore { internalPopRouteJS() }
 }
 
 fun pushRouteAndroid(route: String) {
-    tryIgnore { com.parsuomash.navigation.internal.pushRouteAndroid(route) }
+    tryIgnore { internalPushRouteAndroid(route) }
 }
 
 fun popRouteAndroid() {
-    tryIgnore { com.parsuomash.navigation.internal.popRouteAndroid() }
+    tryIgnore { internalPopRouteAndroid() }
 }
 
 fun hideBottomSheet() {
-    tryIgnore { com.parsuomash.navigation.internal.hideBottomSheet() }
+    tryIgnore { internalHideBottomSheet() }
 }
 
 fun showBottomSheet() {
-    tryIgnore { com.parsuomash.navigation.internal.showBottomSheet() }
+    tryIgnore { internalShowBottomSheet() }
 }
