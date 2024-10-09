@@ -59,13 +59,7 @@ class MainActivity : ActivityScope() {
             ProvideNotificationConfiguration(notificationConfiguration) {
                 ProvideFontFamily(byekanFamily) {
                     CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
-                        Navigator(
-                            screen = RedirectScreen(),
-                            disposeBehavior = NavigatorDisposeBehavior(
-                                disposeSteps = false,
-//                                disposeNestedNavigators = false
-                            )
-                        ) { navigator ->
+                        Navigator(screen = RedirectScreen()) { navigator ->
                             SlideTransition(navigator)
                         }
                     }

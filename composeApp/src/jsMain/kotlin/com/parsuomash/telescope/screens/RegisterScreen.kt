@@ -46,8 +46,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.window.core.layout.WindowWidthSizeClass
 import cafe.adriel.voyager.core.screen.Screen
-import cafe.adriel.voyager.core.screen.ScreenKey
-import cafe.adriel.voyager.core.screen.uniqueScreenKey
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.parsuomash.navigation.core.tryOrEmpty
@@ -58,9 +56,6 @@ import com.parsuomash.telescope.theme.LocalFontFamily
 import kotlinx.coroutines.launch
 
 class RegisterScreen : Screen {
-    override val key: ScreenKey
-        get() = uniqueScreenKey
-
     private fun getNationalCode(): String = tryOrEmpty {
         js("JSInterface.getNationalCode();").unsafeCast<String>()
     }

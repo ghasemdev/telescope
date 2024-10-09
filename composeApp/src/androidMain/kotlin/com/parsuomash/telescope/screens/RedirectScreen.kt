@@ -20,8 +20,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
-import cafe.adriel.voyager.core.screen.ScreenKey
-import cafe.adriel.voyager.core.screen.uniqueScreenKey
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.parsuomash.telescope.theme.LocalFontFamily
@@ -29,9 +27,6 @@ import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.delay
 
 class RedirectScreen : Screen {
-    override val key: ScreenKey
-        get() = uniqueScreenKey
-
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow

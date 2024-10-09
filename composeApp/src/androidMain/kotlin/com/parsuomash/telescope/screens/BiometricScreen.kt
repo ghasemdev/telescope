@@ -8,13 +8,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import cafe.adriel.voyager.core.screen.Screen
-import cafe.adriel.voyager.core.screen.ScreenKey
-import cafe.adriel.voyager.core.screen.uniqueScreenKey
 
 class BiometricScreen : Screen {
-    override val key: ScreenKey
-        get() = uniqueScreenKey
-
     @Composable
     override fun Content() {
         Surface(

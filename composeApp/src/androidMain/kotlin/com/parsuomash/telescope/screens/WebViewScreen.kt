@@ -32,16 +32,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import cafe.adriel.voyager.core.screen.Screen
-import cafe.adriel.voyager.core.screen.ScreenKey
-import cafe.adriel.voyager.core.screen.uniqueScreenKey
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.parsuomash.telescope.bridge.JavaScriptInterface
 
-class WebViewScreen : Screen {
-    override val key: ScreenKey
-        get() = uniqueScreenKey
+@SuppressLint("StaticFieldLeak")
+private var _webView: WebView? = null
 
+class WebViewScreen : Screen {
     @SuppressLint("SetJavaScriptEnabled")
     @Composable
     override fun Content() {
@@ -50,11 +48,11 @@ class WebViewScreen : Screen {
 
         var value by rememberSaveable { mutableIntStateOf(0) }
 
-        var isLoading: Boolean by remember { mutableStateOf(true) }
-        var isWebViewBottomSheetOpen: Boolean by remember { mutableStateOf(false) }
+        var isLoading: Boolean by rememberSaveable { mutableStateOf(true) }
+        var isWebViewBottomSheetOpen: Boolean by rememberSaveable { mutableStateOf(false) }
         val webViewRoutes = remember { mutableStateListOf<String>() }
         val webView = remember {
-            WebView(context).apply {
+            _webView ?: WebView(context).apply {
                 webViewClient = object : WebViewClient() {
                     override fun onPageFinished(view: WebView?, url: String?) {
                         super.onPageFinished(view, url)
@@ -89,6 +87,8 @@ class WebViewScreen : Screen {
                 )
                 setBackgroundColor(Color(0xFF152132).toArgb())
                 loadUrl("http://172.30.230.147:8080/")
+
+                _webView = this
             }
         }
 
@@ -125,8 +125,7 @@ class WebViewScreen : Screen {
                         .systemBarsPadding()
                 ) {
                     AndroidView(
-                        modifier = Modifier
-                            .fillMaxSize(),
+                        modifier = Modifier.fillMaxSize(),
                         factory = { webView },
                     )
                     if (isLoading) {
