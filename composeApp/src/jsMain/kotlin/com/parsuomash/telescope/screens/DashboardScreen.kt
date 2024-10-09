@@ -28,14 +28,20 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.window.core.layout.WindowWidthSizeClass
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.core.screen.ScreenKey
+import cafe.adriel.voyager.core.screen.uniqueScreenKey
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.parsuomash.navigation.popRouteJS
+import com.parsuomash.navigation.pushRouteAndroid
 import com.parsuomash.navigation.pushRouteJS
 import com.parsuomash.telescope.navigation.ObservePopRoute
 import com.parsuomash.telescope.theme.LocalFontFamily
 
 class DashboardScreen : Screen {
+    override val key: ScreenKey
+        get() = uniqueScreenKey
+
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
@@ -99,8 +105,8 @@ class DashboardScreen : Screen {
                                 .background(color = Color(0xFF19273B), shape = RoundedCornerShape(16.dp))
                                 .clip(RoundedCornerShape(16.dp))
                                 .clickable {
-                                    pushRouteJS(route = "IssueCertificate")
-                                    navigator.push(IssueCertificate())
+                                    pushRouteJS(route = "CryptoCertificate")
+                                    navigator.push(CryptoCertificate())
                                 }
                                 .clip(RoundedCornerShape(16.dp))
                                 .padding(16.dp),
@@ -120,7 +126,9 @@ class DashboardScreen : Screen {
                                 .height(100.dp)
                                 .background(color = Color(0xFF19273B), shape = RoundedCornerShape(16.dp))
                                 .clip(RoundedCornerShape(16.dp))
-                                .clickable { }
+                                .clickable {
+                                    pushRouteAndroid(route = "BiometricScreen")
+                                }
                                 .clip(RoundedCornerShape(16.dp))
                                 .padding(16.dp),
                             contentAlignment = Alignment.CenterStart

@@ -23,13 +23,18 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.window.core.layout.WindowWidthSizeClass
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.core.screen.ScreenKey
+import cafe.adriel.voyager.core.screen.uniqueScreenKey
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.parsuomash.navigation.popRouteJS
 import com.parsuomash.telescope.navigation.ObservePopRoute
 import com.parsuomash.telescope.theme.LocalFontFamily
 
-class IssueCertificate : Screen {
+class CryptoCertificate : Screen {
+    override val key: ScreenKey
+        get() = uniqueScreenKey
+
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
